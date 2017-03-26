@@ -50,6 +50,12 @@ import CubicBezierInterpolation from './CubicBezierInterpolation'
 
 const THREE: typeof _THREE = ((function () { return this })().THREE || require('three')) as typeof _THREE
 
+const KeyframeTrackers = {
+    VectorKeyframeTrackEx,
+    QuaternionKeyframeTrackEx,
+    NumberKeyframeTrackEx,
+}
+
 export default class MMDLoader extends THREE.Loader
 {
     manager: _THREE.LoadingManager
@@ -299,27 +305,21 @@ export default class MMDLoader extends THREE.Loader
                             for (var i = 0; i < stride; i++)
                             {
                                 values[index * stride + i] = values[aheadIndex * stride + i];
-
                             }
 
                             for (var i = 0; i < interpolateStride; i++)
                             {
                                 interpolations[index * interpolateStride + i] = interpolations[aheadIndex * interpolateStride + i];
-
                             }
-
                         }
-
                     }
 
                     times.length = index + 1;
                     values.length = (index + 1) * stride;
                     interpolations.length = (index + 1) * interpolateStride;
-
                 }
 
-                return new THREE.MMDLoader[type](node, times, values, interpolations);
-
+                return new KeyframeTrackers[type](node, times, values, interpolations);
             };
 
             for (var i = 0; i < orderedMotions.length; i++)
