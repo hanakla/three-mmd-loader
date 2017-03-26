@@ -107,7 +107,7 @@ export default class MMDLoader extends THREE.Loader
         this.pourVmdIntoModel(mesh, vmds);
     }
 
-    async loadModel(url: string, onProgress: (e: ProgressEvent) => void)
+    async loadModel(url: string, onProgress?: (e: ProgressEvent) => void)
     {
         var scope = this;
 
@@ -118,7 +118,7 @@ export default class MMDLoader extends THREE.Loader
         return this.createModel(buffer, modelExtension, texturePath, onProgress)
     }
 
-    createModel(buffer: ArrayBuffer, modelExtension: string, texturePath: string, onProgress: (e: ProgressEvent) => void)
+    createModel(buffer: ArrayBuffer, modelExtension: string, texturePath: string, onProgress?: (e: ProgressEvent) => void)
     {
         return this.createMesh(this.parseModel(buffer, modelExtension), texturePath, onProgress);
     }
@@ -135,7 +135,7 @@ export default class MMDLoader extends THREE.Loader
         return this.mergeVmds(await Promise.all(vmdLoaders));
     }
 
-    async loadAudio(url: string, onProgress: (e: ProgressEvent) => void): Promise<[_THREE.Audio, _THREE.AudioListener]>
+    async loadAudio(url: string, onProgress?: (e: ProgressEvent) => void): Promise<[_THREE.Audio, _THREE.AudioListener]>
     {
         var listener = new THREE.AudioListener();
         var audio = new THREE.Audio(listener);
@@ -158,7 +158,7 @@ export default class MMDLoader extends THREE.Loader
     {
         const func = ((params && params.charcode === 'unicode') ? this.loadFileAsText : this.loadFileAsShiftJISText).bind(this);
 
-        return new Promise ((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             func(
                 url,
                 (text) => resolve(this.parseVpd(text)),
@@ -433,22 +433,22 @@ export default class MMDLoader extends THREE.Loader
         });
     }
 
-    async loadFileAsBuffer(url: string, onProgress: (e: ProgressEvent) => void): Promise
+    async loadFileAsBuffer(url: string, onProgress?: (e: ProgressEvent) => void)
     {
         return this.loadFile(url, 'arraybuffer', null, onProgress);
     }
 
-    async loadFileAsText(url: string, onProgress: (e: ProgressEvent) => void)
+    async loadFileAsText(url: string, onProgress?: (e: ProgressEvent) => void)
     {
         return this.loadFile(url, 'text', null, onProgress);
     }
 
-    async loadFileAsShiftJISText(url: string, onProgress: (e: ProgressEvent) => void)
+    async loadFileAsShiftJISText(url: string, onProgress?: (e: ProgressEvent) => void)
     {
         return this.loadFile(url, 'text', 'text/plain; charset=shift_jis', onProgress,);
     }
 
-    createMesh(model, texturePath: string, onProgress: (e: ProgressEvent) => void)
+    createMesh(model, texturePath: string, onProgress?: (e: ProgressEvent) => void)
     {
         var scope = this;
         var geometry = new THREE.BufferGeometry();
@@ -927,7 +927,7 @@ export default class MMDLoader extends THREE.Loader
 
                     delete texture.readyCallbacks;
 
-                }, onProgress, onError);
+                }, onProgress, (e: ErrorEvent) => { throw e.error });
 
                 texture.readyCallbacks = [];
 
