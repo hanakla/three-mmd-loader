@@ -1,6 +1,6 @@
 {
   "name": "three-mmd-loader",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "MMD pmd/pmx/vmd loader for Three.js",
   "main": "dist/mmd-loader.js",
   "author": "Ragg <Ragg-@users.noreply.github.com>",
