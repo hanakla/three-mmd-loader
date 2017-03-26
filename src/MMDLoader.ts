@@ -82,7 +82,7 @@ export default class MMDLoader extends THREE.Loader
         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAL0lEQVRYR+3QQREAAAzCsOFfNJPBJ1XQS9r2hsUAAQIECBAgQIAAAQIECBAgsBZ4MUx/ofm2I/kAAAAASUVORK5CYII='
     ];
 
-    constructor(manager)
+    constructor(manager?: _THREE.LoadingManager)
     {
         super();
         this.manager = (manager !== undefined) ? manager : THREE.DefaultLoadingManager;
@@ -95,7 +95,7 @@ export default class MMDLoader extends THREE.Loader
      * even if server responds with "Access-Control-Allow-Origin: *"
      * because some image operation fails in MMDLoader.
      */
-    setTextureCrossOrigin(value)
+    setTextureCrossOrigin(value: string)
     {
         this.textureCrossOrigin = value;
     }
@@ -168,7 +168,7 @@ export default class MMDLoader extends THREE.Loader
         });
     }
 
-    parseModel(buffer: ArrayBuffer, modelExtension)
+    parseModel(buffer: ArrayBuffer, modelExtension: string)
     {
         // Should I judge from model data header?
         switch (modelExtension.toLowerCase())
@@ -185,27 +185,27 @@ export default class MMDLoader extends THREE.Loader
         }
     }
 
-    parsePmd(buffer)
+    parsePmd(buffer: ArrayBuffer)
     {
         return this.parser.parsePmd(buffer, true);
     }
 
-    parsePmx(buffer)
+    parsePmx(buffer: ArrayBuffer)
     {
         return this.parser.parsePmx(buffer, true);
     }
 
-    parseVmd(buffer)
+    parseVmd(buffer: ArrayBuffer)
     {
         return this.parser.parseVmd(buffer, true);
     }
 
-    parseVpd(text)
+    parseVpd(text: string)
     {
         return this.parser.parseVpd(text, true);
     }
 
-    mergeVmds(vmds)
+    mergeVmds(vmds: MMDParser.Vmd[])
     {
         return this.parser.mergeVmds(vmds);
     }
