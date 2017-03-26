@@ -43,6 +43,7 @@ import * as MMDParser from 'mmd-parser'
 import DataCreationHelper from './DataCreationHelper'
 import VectorKeyframeTrackEx from './VectorKeyframeTrackEx'
 import QuaternionKeyframeTrackEx from './QuaternionKeyframeTrackEx'
+import NumberKeyframeTrackEx from './NumberKeyframeTrackEx'
 
 const THREE: typeof _THREE = ((function () { return this })().THREE || require('three')) as typeof _THREE
 
@@ -1663,31 +1664,6 @@ export class MMDLoader extends THREE.Loader {
 	}
 }
 
-
-
-THREE.MMDLoader.NumberKeyframeTrackEx = function ( name, times, values, interpolationParameterArray ) {
-
-	this.interpolationParameters = new Float32Array( interpolationParameterArray );
-
-	THREE.NumberKeyframeTrack.call( this, name, times, values );
-
-};
-
-THREE.MMDLoader.NumberKeyframeTrackEx.prototype = Object.create( THREE.NumberKeyframeTrack.prototype );
-THREE.MMDLoader.NumberKeyframeTrackEx.prototype.constructor = THREE.MMDLoader.NumberKeyframeTrackEx;
-THREE.MMDLoader.NumberKeyframeTrackEx.prototype.TimeBufferType = Float64Array;
-
-THREE.MMDLoader.NumberKeyframeTrackEx.prototype.InterpolantFactoryMethodCubicBezier = function( result ) {
-
-	return new THREE.MMDLoader.CubicBezierInterpolation( this.times, this.values, this.getValueSize(), result, this.interpolationParameters );
-
-};
-
-THREE.MMDLoader.NumberKeyframeTrackEx.prototype.setInterpolation = function( interpolation ) {
-
-	this.createInterpolant = this.InterpolantFactoryMethodCubicBezier;
-
-};
 
 THREE.MMDLoader.CubicBezierInterpolation = function ( parameterPositions, sampleValues, sampleSize, resultBuffer, params ) {
 
