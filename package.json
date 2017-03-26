@@ -18,5 +18,8 @@
   "dependencies": {
     "@types/three": "^0.84.3",
     "mmd-parser": "^1.0.3"
+  },
+  "peerDependencies": {
+    "three": "^0.84.0"
   }
 }
