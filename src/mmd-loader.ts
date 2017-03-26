@@ -1661,37 +1661,6 @@ export class MMDLoader extends THREE.Loader {
 	}
 }
 
-
-
-/*
- * extends existing KeyframeTrack for bone and camera animation.
- *   - use Float64Array for times
- *   - use Cubic Bezier curves interpolation
- */
-THREE.MMDLoader.VectorKeyframeTrackEx = function ( name, times, values, interpolationParameterArray ) {
-
-	this.interpolationParameters = new Float32Array( interpolationParameterArray );
-
-	THREE.VectorKeyframeTrack.call( this, name, times, values );
-
-};
-
-THREE.MMDLoader.VectorKeyframeTrackEx.prototype = Object.create( THREE.VectorKeyframeTrack.prototype );
-THREE.MMDLoader.VectorKeyframeTrackEx.prototype.constructor = THREE.MMDLoader.VectorKeyframeTrackEx;
-THREE.MMDLoader.VectorKeyframeTrackEx.prototype.TimeBufferType = Float64Array;
-
-THREE.MMDLoader.VectorKeyframeTrackEx.prototype.InterpolantFactoryMethodCubicBezier = function( result ) {
-
-	return new THREE.MMDLoader.CubicBezierInterpolation( this.times, this.values, this.getValueSize(), result, this.interpolationParameters );
-
-};
-
-THREE.MMDLoader.VectorKeyframeTrackEx.prototype.setInterpolation = function( interpolation ) {
-
-	this.createInterpolant = this.InterpolantFactoryMethodCubicBezier;
-
-};
-
 THREE.MMDLoader.QuaternionKeyframeTrackEx = function ( name, times, values, interpolationParameterArray ) {
 
 	this.interpolationParameters = new Float32Array( interpolationParameterArray );
