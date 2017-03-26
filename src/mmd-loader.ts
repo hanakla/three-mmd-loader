@@ -42,6 +42,7 @@ import * as MMDParser from 'mmd-parser'
 
 import DataCreationHelper from './DataCreationHelper'
 import MMDAudioManager from './MMDAudioManager'
+import MMDGrantSolver from './MMDGrantSolver'
 import VectorKeyframeTrackEx from './VectorKeyframeTrackEx'
 import QuaternionKeyframeTrackEx from './QuaternionKeyframeTrackEx'
 import NumberKeyframeTrackEx from './NumberKeyframeTrackEx'
@@ -1673,64 +1674,6 @@ export class MMDLoader extends THREE.Loader {
 }
 
 
-THREE.MMDGrantSolver = function ( mesh ) {
-
-	this.mesh = mesh;
-
-};
-
-THREE.MMDGrantSolver.prototype = {
-
-	constructor: THREE.MMDGrantSolver,
-
-	update: function () {
-
-		var q = new THREE.Quaternion();
-
-		return function () {
-
-			for ( var i = 0; i < this.mesh.geometry.grants.length; i ++ ) {
-
-				var g = this.mesh.geometry.grants[ i ];
-				var b = this.mesh.skeleton.bones[ g.index ];
-				var pb = this.mesh.skeleton.bones[ g.parentIndex ];
-
-				if ( g.isLocal ) {
-
-					// TODO: implement
-					if ( g.affectPosition ) {
-
-					}
-
-					// TODO: implement
-					if ( g.affectRotation ) {
-
-					}
-
-				} else {
-
-					// TODO: implement
-					if ( g.affectPosition ) {
-
-					}
-
-					if ( g.affectRotation ) {
-
-						q.set( 0, 0, 0, 1 );
-						q.slerp( pb.quaternion, g.ratio );
-						b.quaternion.multiply( q );
-
-					}
-
-				}
-
-			}
-
-		};
-
-	}()
-
-};
 
 THREE.MMDHelper = function () {
 
@@ -1965,7 +1908,7 @@ THREE.MMDHelper.prototype = {
 
 				if ( mesh.geometry.grants !== undefined ) {
 
-					mesh.grantSolver = new THREE.MMDGrantSolver( mesh );
+					mesh.grantSolver = new MMDGrantSolver( mesh );
 
 				}
 
@@ -2275,7 +2218,7 @@ THREE.MMDHelper.prototype = {
 
 		if ( params.preventGrant !== true && mesh.geometry.grants !== undefined ) {
 
-			var solver = new THREE.MMDGrantSolver( mesh );
+			var solver = new MMDGrantSolver( mesh );
 			solver.update();
 
 		}
