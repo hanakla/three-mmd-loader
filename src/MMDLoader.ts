@@ -48,7 +48,7 @@ import QuaternionKeyframeTrackEx from './QuaternionKeyframeTrackEx'
 import NumberKeyframeTrackEx from './NumberKeyframeTrackEx'
 import CubicBezierInterpolation from './CubicBezierInterpolation'
 
-const THREE: typeof _THREE = ((function () { return this })().THREE || require('three')) as typeof _THREE
+const THREE: typeof _THREE = (((function () { return this })()).THREE || require('three')) as typeof _THREE
 
 const KeyframeTrackers = {
     VectorKeyframeTrackEx,
