@@ -94,112 +94,75 @@ export default class MMDLoader extends THREE.Loader
         this.textureCrossOrigin = value;
     }
 
-    load(modelUrl, vmdUrls, callback, onProgress, onError)
+    async load(this: MMDLoader, modelUrl: string, vmdUrls: string[], onProgress?: (e: ProgressEvent) => void)
     {
-        var scope = this;
-
-        this.loadModel(modelUrl, function (mesh)
-        {
-            scope.loadVmds(vmdUrls, function (vmd)
-            {
-                scope.pourVmdIntoModel(mesh, vmd);
-                callback(mesh);
-
-            }, onProgress, onError);
-
-        }, onProgress, onError);
+        const mesh = await this.loadModel(modelUrl, onProgress)
+        const vmds = await this.loadVmds(vmdUrls, onProgress)
+        this.pourVmdIntoModel(mesh, vmds);
     }
 
-    loadModel(url, callback, onProgress, onError)
+    async loadModel(url: string, onProgress: (e: ProgressEvent) => void)
     {
         var scope = this;
 
         var texturePath = this.extractUrlBase(url);
         var modelExtension = this.extractExtension(url);
 
-        this.loadFileAsBuffer(url, function (buffer)
-        {
-            callback(scope.createModel(buffer, modelExtension, texturePath, onProgress, onError));
-
-        }, onProgress, onError);
+        const buffer = await this.loadFileAsBuffer(url, onProgress)
+        return this.createModel(buffer, modelExtension, texturePath, onProgress)
     }
 
-    createModel(buffer, modelExtension, texturePath, onProgress, onError)
+    createModel(buffer: ArrayBuffer, modelExtension: string, texturePath: string, onProgress: (e: ProgressEvent) => void)
     {
-        return this.createMesh(this.parseModel(buffer, modelExtension), texturePath, onProgress, onError);
+        return this.createMesh(this.parseModel(buffer, modelExtension), texturePath, onProgress);
     }
 
-    loadVmd(url, callback, onProgress, onError)
+    async loadVmd(url: string, onProgress?: (e: ProgressEvent) => void)
     {
-        var scope = this;
-
-        this.loadFileAsBuffer(url, function (buffer)
-        {
-            callback(scope.parseVmd(buffer));
-
-        }, onProgress, onError);
+        return this.parseVmd(await this.loadFileAsBuffer(url, onProgress))
     }
 
-    loadVmds(urls, callback, onProgress, onError)
+    async loadVmds(urls: string[], onProgress?: (e: ProgressEvent) => void): Promise<MMDParser.Vmd>
     {
-        var scope = this;
-
-        var vmds = [];
-        urls = urls.slice();
-
-        function run()
-        {
-            var url = urls.shift();
-
-            scope.loadVmd(url, function (vmd)
-            {
-                vmds.push(vmd);
-
-                if (urls.length > 0)
-                {
-                    run();
-
-                } else
-                {
-                    callback(scope.mergeVmds(vmds));
-
-                }
-
-            }, onProgress, onError);
-
-        }
-
-        run();
+        // TODO: handle onProgress
+        const vmdLoaders = urls.map(url => this.loadVmd(url));
+        return this.mergeVmds(await Promise.all(vmdLoaders));
     }
 
-    loadAudio(url, callback, onProgress, onError)
+    async loadAudio(url: string, onProgress: (e: ProgressEvent) => void): Promise<[_THREE.Audio, _THREE.AudioListener]>
     {
         var listener = new THREE.AudioListener();
         var audio = new THREE.Audio(listener);
         var loader = new THREE.AudioLoader(this.manager);
 
-        loader.load(url, function (buffer)
-        {
-            audio.setBuffer(buffer);
-            callback(audio, listener);
-
-        }, onProgress, onError);
+        return new Promise<[_THREE.Audio, _THREE.AudioListener]>((resolve, reject) => {
+            loader.load(
+                url,
+                (buffer) => {
+                    audio.setBuffer(buffer);
+                    resolve([audio, listener]);
+                },
+                onProgress,
+                (e: ErrorEvent) => reject(e.error)
+            );
+        });
     }
 
-    loadVpd(url, callback, onProgress, onError, params)
+    async loadVpd(url: string, params: {charcode: 'unicode'|string}, onProgress?: (e: ProgressEvent) => void)
     {
-        var scope = this;
+        const func = ((params && params.charcode === 'unicode') ? this.loadFileAsText : this.loadFileAsShiftJISText).bind(this);
 
-        var func = ((params && params.charcode === 'unicode') ? this.loadFileAsText : this.loadFileAsShiftJISText).bind(this);
-
-        func(url, function (text)
-        {
-            callback(scope.parseVpd(text));
-
-        }, onProgress, onError);
+        return new Promise ((resolve, reject) => {
+            func(
+                url,
+                (text) => resolve(this.parseVpd(text)),
+                onProgress,
+                (e: ErrorEvent) => reject(e.error)
+            );
+        });
     }
 
-    parseModel(buffer, modelExtension)
+    parseModel(buffer: ArrayBuffer, modelExtension)
     {
         // Should I judge from model data header?
         switch (modelExtension.toLowerCase())
@@ -453,39 +416,40 @@ export default class MMDLoader extends THREE.Loader
         return url.slice(index + 1);
     }
 
-    loadFile(url, onLoad, onProgress, onError, responseType, mimeType?)
+    loadFile(url: string, responseType, mimeType?: MimeType|string, onProgress?: (e: ProgressEvent) => void)
     {
-        var loader = new THREE.FileLoader(this.manager);
+        return new Promise((resolve, reject) => {
+            const loader = new THREE.FileLoader(this.manager);
 
-        if (mimeType !== undefined) loader.setMimeType(mimeType);
+            if (mimeType != null) loader.setMimeType(mimeType as MimeType);
 
-        loader.setResponseType(responseType);
+            loader.setResponseType(responseType);
 
-        var request = loader.load(url, function (result)
-        {
-            onLoad(result);
-
-        }, onProgress, onError);
-
-        return request;
+            loader.load(
+                url,
+                (result) => resolve(result),
+                onProgress,
+                (e) => reject(e.error)
+            );
+        });
     }
 
-    loadFileAsBuffer(url, onLoad, onProgress, onError)
+    async loadFileAsBuffer(url: string, onProgress: (e: ProgressEvent) => void): Promise
     {
-        this.loadFile(url, onLoad, onProgress, onError, 'arraybuffer');
+        return this.loadFile(url, 'arraybuffer', null, onProgress);
     }
 
-    loadFileAsText(url, onLoad, onProgress, onError)
+    async loadFileAsText(url: string, onProgress: (e: ProgressEvent) => void)
     {
-        this.loadFile(url, onLoad, onProgress, onError, 'text');
+        return this.loadFile(url, 'text', null, onProgress);
     }
 
-    loadFileAsShiftJISText(url, onLoad, onProgress, onError)
+    async loadFileAsShiftJISText(url: string, onProgress: (e: ProgressEvent) => void)
     {
-        this.loadFile(url, onLoad, onProgress, onError, 'text', 'text/plain; charset=shift_jis');
+        return this.loadFile(url, 'text', 'text/plain; charset=shift_jis', onProgress,);
     }
 
-    createMesh(model, texturePath, onProgress, onError)
+    createMesh(model, texturePath: string, onProgress: (e: ProgressEvent) => void)
     {
         var scope = this;
         var geometry = new THREE.BufferGeometry();
@@ -1510,8 +1474,6 @@ export default class MMDLoader extends THREE.Loader
         initGeometry();
 
         var mesh = new THREE.SkinnedMesh(geometry, material);
-
-        // console.log( mesh ); // for console debug
 
         return mesh;
     }
