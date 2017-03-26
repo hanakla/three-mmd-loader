@@ -278,22 +278,21 @@ export default class MMDLoader extends THREE.Loader
                     values = values.slice();
                     interpolations = interpolations.slice();
 
-                    var stride = values.length / times.length;
-                    var interpolateStride = (stride === 3) ? 12 : 4;  // 3: Vector3, others: Quaternion or Number
+                    let stride = values.length / times.length;
+                    let interpolateStride = (stride === 3) ? 12 : 4;  // 3: Vector3, others: Quaternion or Number
 
-                    var aheadIndex = 2;
-                    var index = 1;
+                    let index = 1;
 
-                    for (aheadIndex = 2, endIndex = times.length; aheadIndex < endIndex; aheadIndex++)
+                    for (let aheadIndex = 2, endIndex = times.length; aheadIndex < endIndex; aheadIndex++)
                     {
-                        for (var i = 0; i < stride; i++)
+                        for (let i = 0; i < stride; i++)
                         {
-                            if (values[index * stride + i] !== values[(index - 1) * stride + i] ||
-                                values[index * stride + i] !== values[aheadIndex * stride + i])
-                            {
+                            if (
+                                values[index * stride + i] !== values[(index - 1) * stride + i] ||
+                                values[index * stride + i] !== values[aheadIndex * stride + i]
+                            ) {
                                 index++;
                                 break;
-
                             }
 
                         }
@@ -456,7 +455,7 @@ export default class MMDLoader extends THREE.Loader
         var material = new THREE.MultiMaterial();
         var helper = new DataCreationHelper();
 
-        var buffer = {};
+        var buffer: any = {};
 
         buffer.vertices = [];
         buffer.uvs = [];
@@ -1593,7 +1592,7 @@ export default class MMDLoader extends THREE.Loader
 
                 if (times.length === 0) continue;
 
-                tracks.push(new THREE.NumberKeyframeTrack('.morphTargetInfluences[' + i + ']', times, values));
+                tracks.push(new THREE.NumberKeyframeTrack('.morphTargetInfluences[' + i + ']', times, values, null));
 
             }
 
