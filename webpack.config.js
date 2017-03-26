@@ -14,6 +14,16 @@ module.exports = {
       extensions: ['.js', '.ts'],
       modules: ['node_modules'],
   },
+  externals: [
+    (ctx, request, callback) => {
+        if (/^(?!\.\.?\/|\!\!?)/.test(request)) {
+            // throughs non relative requiring ('./module', '../module', '!!../module')
+            return callback(null, `require('${request}')`)
+        }
+
+        callback()
+    },
+],
   module: {
       rules: [
           {
