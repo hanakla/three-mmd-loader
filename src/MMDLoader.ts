@@ -415,7 +415,7 @@ export default class MMDLoader extends THREE.Loader
         return url.slice(index + 1);
     }
 
-    loadFile(url: string, responseType, mimeType?: MimeType|string, onProgress?: (e: ProgressEvent) => void)
+    loadFile(url: string, responseType: string, mimeType?: MimeType|string, onProgress?: (e: ProgressEvent) => void): Promise<ArrayBuffer|string>
     {
         return new Promise((resolve, reject) => {
             const loader = new THREE.FileLoader(this.manager);
@@ -433,19 +433,19 @@ export default class MMDLoader extends THREE.Loader
         });
     }
 
-    async loadFileAsBuffer(url: string, onProgress?: (e: ProgressEvent) => void)
+    async loadFileAsBuffer(url: string, onProgress?: (e: ProgressEvent) => void): Promise<ArrayBuffer>
     {
-        return this.loadFile(url, 'arraybuffer', null, onProgress);
+        return this.loadFile(url, 'arraybuffer', null, onProgress) as Promise<ArrayBuffer>;
     }
 
-    async loadFileAsText(url: string, onProgress?: (e: ProgressEvent) => void)
+    async loadFileAsText(url: string, onProgress?: (e: ProgressEvent) => void): Promise<string>
     {
-        return this.loadFile(url, 'text', null, onProgress);
+        return this.loadFile(url, 'text', null, onProgress) as Promise<string>;
     }
 
-    async loadFileAsShiftJISText(url: string, onProgress?: (e: ProgressEvent) => void)
+    async loadFileAsShiftJISText(url: string, onProgress?: (e: ProgressEvent) => void): Promise<string>
     {
-        return this.loadFile(url, 'text', 'text/plain; charset=shift_jis', onProgress,);
+        return this.loadFile(url, 'text', 'text/plain; charset=shift_jis', onProgress) as Promise<string>;
     }
 
     createMesh(model, texturePath: string, onProgress?: (e: ProgressEvent) => void)
