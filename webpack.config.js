@@ -4,7 +4,7 @@ const webpack = require('webpack')
 module.exports = {
   context: path.join(__dirname, 'src'),
   entry: {
-      'mmd-loader': './mmd-loader.ts',
+      'mmd-loader': './index.ts',
   },
   output: {
     filename: '[name].js',

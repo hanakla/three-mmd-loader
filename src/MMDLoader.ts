@@ -54,12 +54,6 @@ const THREE: typeof _THREE = ((function () { return this })().THREE || require('
 THREE && THREE.MMDLoader = MMDLoader
 
 export default class MMDLoader extends THREE.Loader {
-	static DataCreationHelper = DataCreationHelper
-	static VectorKeyframeTrackEx = VectorKeyframeTrackEx
-	static QuaternionKeyframeTrackEx = QuaternionKeyframeTrackEx
-	static NumberKeyframeTrackEx = NumberKeyframeTrackEx
-	static CubicBezierInterpolation = CubicBezierInterpolation
-
     manager: _THREE.LoadingManager
     parser: MMDParser.Parser
 	textureCrossOrigin: string
