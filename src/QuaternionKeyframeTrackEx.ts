@@ -1,6 +1,8 @@
 import * as _THREE from 'three' // Type reference
 const THREE: typeof _THREE = (((function () { return this || {} })()).THREE || require('three')) as typeof _THREE
 
+import CubicBezierInterpolation from './CubicBezierInterpolation'
+
 export default class QuaternionKeyframeTrackEx extends THREE.QuaternionKeyframeTrack
 {
     TimeBufferType: typeof Float64Array = Float64Array
@@ -13,7 +15,7 @@ export default class QuaternionKeyframeTrackEx extends THREE.QuaternionKeyframeT
 
     InterpolantFactoryMethodCubicBezier(result)
     {
-        return new THREE.MMDLoader.CubicBezierInterpolation(this.times, this.values, this.getValueSize(), result, this.interpolationParameters);
+        return new CubicBezierInterpolation(this.times, this.values, this.getValueSize(), result, this.interpolationParameters);
     }
 
     setInterpolation(interpolation)
