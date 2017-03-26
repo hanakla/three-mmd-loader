@@ -134,7 +134,7 @@ exports.default = MMDAudioManager;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const THREE = ((function () { return this; })().THREE || __webpack_require__(0));
+const THREE = (((function () { return this; })()).THREE || __webpack_require__(0));
 class MMDGrantSolver {
     constructor(mesh) {
         this.update = (() => {
@@ -599,7 +599,7 @@ const DataCreationHelper_1 = __webpack_require__(6);
 const VectorKeyframeTrackEx_1 = __webpack_require__(9);
 const QuaternionKeyframeTrackEx_1 = __webpack_require__(8);
 const NumberKeyframeTrackEx_1 = __webpack_require__(7);
-const THREE = ((function () { return this; })().THREE || __webpack_require__(0));
+const THREE = (((function () { return this; })()).THREE || __webpack_require__(0));
 const KeyframeTrackers = {
     VectorKeyframeTrackEx: VectorKeyframeTrackEx_1.default,
     QuaternionKeyframeTrackEx: QuaternionKeyframeTrackEx_1.default,
@@ -1599,7 +1599,7 @@ exports.default = MMDLoader;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const THREE = ((function () { return this; })().THREE || __webpack_require__(0));
+const THREE = (((function () { return this; })()).THREE || __webpack_require__(0));
 class CubicBezierInterpolation extends THREE.Interpolant {
     constructor(parameterPositions, sampleValues, sampleSize, resultBuffer, params) {
         super(parameterPositions, sampleValues, sampleSize, resultBuffer);
@@ -1785,7 +1785,7 @@ exports.default = DataCreationHelper;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const THREE = ((function () { return this; })().THREE || __webpack_require__(0));
+const THREE = (((function () { return this; })()).THREE || __webpack_require__(0));
 class NumberKeyframeTrackEx extends THREE.NumberKeyframeTrack {
     constructor(name, times, values, interpolationParameterArray) {
         super(name, times, values);
@@ -1809,7 +1809,7 @@ exports.default = NumberKeyframeTrackEx;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const THREE = ((function () { return this; })().THREE || __webpack_require__(0));
+const THREE = (((function () { return this; })()).THREE || __webpack_require__(0));
 class QuaternionKeyframeTrackEx extends THREE.QuaternionKeyframeTrack {
     constructor(name, times, values, interpolationParameterArray) {
         super(name, times, values);
@@ -1833,7 +1833,7 @@ exports.default = QuaternionKeyframeTrackEx;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const THREE = ((function () { return this; })().THREE || __webpack_require__(0));
+const THREE = (((function () { return this; })()).THREE || __webpack_require__(0));
 const CubicBezierInterpolation_1 = __webpack_require__(5);
 /*
  * extends existing KeyframeTrack for bone and camera animation.
