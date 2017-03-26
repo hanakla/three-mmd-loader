@@ -42,6 +42,7 @@ import * as MMDParser from 'mmd-parser'
 
 import DataCreationHelper from './DataCreationHelper'
 import VectorKeyframeTrackEx from './VectorKeyframeTrackEx'
+import QuaternionKeyframeTrackEx from './QuaternionKeyframeTrackEx'
 
 const THREE: typeof _THREE = ((function () { return this })().THREE || require('three')) as typeof _THREE
 
@@ -1599,7 +1600,7 @@ export class MMDLoader extends THREE.Loader {
 				var boneName = '.bones[' + bone.name + ']';
 
 				tracks.push( new VectorKeyframeTrackEx( boneName + '.position', times, positions, pInterpolations ) );
-				tracks.push( new THREE.MMDLoader.QuaternionKeyframeTrackEx( boneName + '.quaternion', times, rotations, rInterpolations ) );
+				tracks.push( new QuaternionKeyframeTrackEx( boneName + '.quaternion', times, rotations, rInterpolations ) );
 
 			}
 
@@ -1662,29 +1663,7 @@ export class MMDLoader extends THREE.Loader {
 	}
 }
 
-THREE.MMDLoader.QuaternionKeyframeTrackEx = function ( name, times, values, interpolationParameterArray ) {
 
-	this.interpolationParameters = new Float32Array( interpolationParameterArray );
-
-	THREE.QuaternionKeyframeTrack.call( this, name, times, values );
-
-};
-
-THREE.MMDLoader.QuaternionKeyframeTrackEx.prototype = Object.create( THREE.QuaternionKeyframeTrack.prototype );
-THREE.MMDLoader.QuaternionKeyframeTrackEx.prototype.constructor = THREE.MMDLoader.QuaternionKeyframeTrackEx;
-THREE.MMDLoader.QuaternionKeyframeTrackEx.prototype.TimeBufferType = Float64Array;
-
-THREE.MMDLoader.QuaternionKeyframeTrackEx.prototype.InterpolantFactoryMethodCubicBezier = function( result ) {
-
-	return new THREE.MMDLoader.CubicBezierInterpolation( this.times, this.values, this.getValueSize(), result, this.interpolationParameters );
-
-};
-
-THREE.MMDLoader.QuaternionKeyframeTrackEx.prototype.setInterpolation = function( interpolation ) {
-
-	this.createInterpolant = this.InterpolantFactoryMethodCubicBezier;
-
-};
 
 THREE.MMDLoader.NumberKeyframeTrackEx = function ( name, times, values, interpolationParameterArray ) {
 
