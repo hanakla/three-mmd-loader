@@ -1,6 +1,8 @@
 import * as _THREE from 'three' // Type reference
 const THREE: typeof _THREE = ((function () { return this })().THREE || require('three')) as typeof _THREE
 
+import CubicBezierInterpolation from './CubicBezierInterpolation'
+
 /*
  * extends existing KeyframeTrack for bone and camera animation.
  *   - use Float64Array for times
@@ -19,7 +21,7 @@ export default class VectorKeyframeTrackEx extends THREE.VectorKeyframeTrack
 
     InterpolantFactoryMethodCubicBezier(result)
     {
-        return new THREE.MMDLoader.CubicBezierInterpolation(this.times, this.values, this.getValueSize(), result, this.interpolationParameters);
+        return new CubicBezierInterpolation(this.times, this.values, this.getValueSize(), result, this.interpolationParameters);
     }
 
     setInterpolation(interpolation)
