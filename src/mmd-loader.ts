@@ -41,6 +41,7 @@ import * as _THREE from 'three'
 import * as MMDParser from 'mmd-parser'
 
 import DataCreationHelper from './DataCreationHelper'
+import MMDAudioManager from './MMDAudioManager'
 import VectorKeyframeTrackEx from './VectorKeyframeTrackEx'
 import QuaternionKeyframeTrackEx from './QuaternionKeyframeTrackEx'
 import NumberKeyframeTrackEx from './NumberKeyframeTrackEx'
@@ -1671,90 +1672,6 @@ export class MMDLoader extends THREE.Loader {
 	}
 }
 
-THREE.MMDAudioManager = function ( audio, listener, p ) {
-
-	var params = ( p === null || p === undefined ) ? {} : p;
-
-	this.audio = audio;
-	this.listener = listener;
-
-	this.elapsedTime = 0.0;
-	this.currentTime = 0.0;
-	this.delayTime = params.delayTime !== undefined ? params.delayTime : 0.0;
-
-	this.audioDuration = this.audio.buffer.duration;
-	this.duration = this.audioDuration + this.delayTime;
-
-};
-
-THREE.MMDAudioManager.prototype = {
-
-	constructor: THREE.MMDAudioManager,
-
-	control: function ( delta ) {
-
-		this.elapsed += delta;
-		this.currentTime += delta;
-
-		if ( this.checkIfStopAudio() ) {
-
-			this.audio.stop();
-
-		}
-
-		if ( this.checkIfStartAudio() ) {
-
-			this.audio.play();
-
-		}
-
-	},
-
-	checkIfStartAudio: function () {
-
-		if ( this.audio.isPlaying ) {
-
-			return false;
-
-		}
-
-		while ( this.currentTime >= this.duration ) {
-
-			this.currentTime -= this.duration;
-
-		}
-
-		if ( this.currentTime < this.delayTime ) {
-
-			return false;
-
-		}
-
-		this.audio.startTime = this.currentTime - this.delayTime;
-
-		return true;
-
-	},
-
-	checkIfStopAudio: function () {
-
-		if ( ! this.audio.isPlaying ) {
-
-			return false;
-
-		}
-
-		if ( this.currentTime >= this.duration ) {
-
-			return true;
-
-		}
-
-		return false;
-
-	}
-
-};
 
 THREE.MMDGrantSolver = function ( mesh ) {
 
@@ -1860,7 +1777,7 @@ THREE.MMDHelper.prototype = {
 
 	setAudio: function ( audio, listener, params ) {
 
-		this.audioManager = new THREE.MMDAudioManager( audio, listener, params );
+		this.audioManager = new MMDAudioManager( audio, listener, params );
 
 	},
 
