@@ -1,8 +1,8 @@
-
-export default class MMDAudioManager {
-    constructor( audio, listener, p ) {
-
-        var params = ( p === null || p === undefined ) ? {} : p;
+export default class MMDAudioManager
+{
+    constructor(audio, listener, p)
+    {
+        var params = (p === null || p === undefined) ? {} : p;
 
         this.audio = audio;
         this.listener = listener;
@@ -13,69 +13,65 @@ export default class MMDAudioManager {
 
         this.audioDuration = this.audio.buffer.duration;
         this.duration = this.audioDuration + this.delayTime;
-
     }
 
-	control( delta ) {
+    control(delta)
+    {
+        this.elapsed += delta;
+        this.currentTime += delta;
 
-		this.elapsed += delta;
-		this.currentTime += delta;
+        if (this.checkIfStopAudio())
+        {
+            this.audio.stop();
 
-		if ( this.checkIfStopAudio() ) {
+        }
 
-			this.audio.stop();
+        if (this.checkIfStartAudio())
+        {
+            this.audio.play();
 
-		}
+        }
+    }
 
-		if ( this.checkIfStartAudio() ) {
+    checkIfStartAudio()
+    {
+        if (this.audio.isPlaying)
+        {
+            return false;
 
-			this.audio.play();
+        }
 
-		}
+        while (this.currentTime >= this.duration)
+        {
+            this.currentTime -= this.duration;
 
-	}
+        }
 
-	checkIfStartAudio() {
+        if (this.currentTime < this.delayTime)
+        {
+            return false;
 
-		if ( this.audio.isPlaying ) {
+        }
 
-			return false;
+        this.audio.startTime = this.currentTime - this.delayTime;
 
-		}
+        return true;
+    }
 
-		while ( this.currentTime >= this.duration ) {
+    checkIfStopAudio()
+    {
+        if (!this.audio.isPlaying)
+        {
+            return false;
 
-			this.currentTime -= this.duration;
+        }
 
-		}
+        if (this.currentTime >= this.duration)
+        {
+            return true;
 
-		if ( this.currentTime < this.delayTime ) {
+        }
 
-			return false;
-
-		}
-
-		this.audio.startTime = this.currentTime - this.delayTime;
-
-		return true;
-
-	}
-
-	checkIfStopAudio() {
-
-		if ( ! this.audio.isPlaying ) {
-
-			return false;
-
-		}
-
-		if ( this.currentTime >= this.duration ) {
-
-			return true;
-
-		}
-
-		return false;
-
-	}
+        return false;
+    }
 }

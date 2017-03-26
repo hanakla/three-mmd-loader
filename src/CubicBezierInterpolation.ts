@@ -1,13 +1,16 @@
 import * as _THREE from 'three' // Type reference
 const THREE: typeof _THREE = ((function () { return this })().THREE || require('three')) as typeof _THREE
 
-export default class CubicBezierInterpolation extends THREE.Interpolant {
-    constructor( parameterPositions, sampleValues, sampleSize, resultBuffer, params ) {
-        super(parameterPositions, sampleValues, sampleSize, resultBuffer );
+export default class CubicBezierInterpolation extends THREE.Interpolant
+{
+    constructor(parameterPositions, sampleValues, sampleSize, resultBuffer, params)
+    {
+        super(parameterPositions, sampleValues, sampleSize, resultBuffer);
         this.params = params;
     }
 
-    interpolate_( i1, t0, t, t1 ) {
+    interpolate_(i1, t0, t, t1)
+    {
         var result = this.resultBuffer;
         var values = this.sampleValues;
         var stride = this.valueSize;
@@ -15,51 +18,56 @@ export default class CubicBezierInterpolation extends THREE.Interpolant {
         var offset1 = i1 * stride;
         var offset0 = offset1 - stride;
 
-        var weight1 = ( t - t0 ) / ( t1 - t0 );
+        var weight1 = (t - t0) / (t1 - t0);
 
-        if ( stride === 4 ) {  // Quaternion
+        if (stride === 4)
+        {  // Quaternion
 
-            var x1 = this.params[ i1 * 4 + 0 ];
-            var x2 = this.params[ i1 * 4 + 1 ];
-            var y1 = this.params[ i1 * 4 + 2 ];
-            var y2 = this.params[ i1 * 4 + 3 ];
+            var x1 = this.params[i1 * 4 + 0];
+            var x2 = this.params[i1 * 4 + 1];
+            var y1 = this.params[i1 * 4 + 2];
+            var y2 = this.params[i1 * 4 + 3];
 
-            var ratio = this._calculate( x1, x2, y1, y2, weight1 );
+            var ratio = this._calculate(x1, x2, y1, y2, weight1);
 
-            THREE.Quaternion.slerpFlat( result, 0, values, offset0, values, offset1, ratio );
+            THREE.Quaternion.slerpFlat(result, 0, values, offset0, values, offset1, ratio);
 
-        } else if ( stride === 3 ) {  // Vector3
+        } else if (stride === 3)
+        {  // Vector3
 
-            for ( var i = 0; i !== stride; ++ i ) {
+            for (var i = 0; i !== stride; ++i)
+            {
 
-                var x1 = this.params[ i1 * 12 + i * 4 + 0 ];
-                var x2 = this.params[ i1 * 12 + i * 4 + 1 ];
-                var y1 = this.params[ i1 * 12 + i * 4 + 2 ];
-                var y2 = this.params[ i1 * 12 + i * 4 + 3 ];
+                var x1 = this.params[i1 * 12 + i * 4 + 0];
+                var x2 = this.params[i1 * 12 + i * 4 + 1];
+                var y1 = this.params[i1 * 12 + i * 4 + 2];
+                var y2 = this.params[i1 * 12 + i * 4 + 3];
 
-                var ratio = this._calculate( x1, x2, y1, y2, weight1 );
+                var ratio = this._calculate(x1, x2, y1, y2, weight1);
 
-                result[ i ] = values[ offset0 + i ] * ( 1 - ratio ) + values[ offset1 + i ] * ratio;
+                result[i] = values[offset0 + i] * (1 - ratio) + values[offset1 + i] * ratio;
 
             }
 
-        } else {  // Number
+        } else
+        {  // Number
 
-            var x1 = this.params[ i1 * 4 + 0 ];
-            var x2 = this.params[ i1 * 4 + 1 ];
-            var y1 = this.params[ i1 * 4 + 2 ];
-            var y2 = this.params[ i1 * 4 + 3 ];
+            var x1 = this.params[i1 * 4 + 0];
+            var x2 = this.params[i1 * 4 + 1];
+            var y1 = this.params[i1 * 4 + 2];
+            var y2 = this.params[i1 * 4 + 3];
 
-            var ratio = this._calculate( x1, x2, y1, y2, weight1 );
+            var ratio = this._calculate(x1, x2, y1, y2, weight1);
 
-            result[ 0 ] = values[ offset0 ] * ( 1 - ratio ) + values[ offset1 ] * ratio;
+            result[0] = values[offset0] * (1 - ratio) + values[offset1] * ratio;
 
         }
 
         return result;
     }
 
-    _calculate( x1, x2, y1, y2, x ) {
+    _calculate(x1, x2, y1, y2, x)
+    {
 
         /*
         * Cubic Bezier curves
@@ -107,23 +115,24 @@ export default class CubicBezierInterpolation extends THREE.Interpolant {
 
         var sst3, stt3, ttt;
 
-        for ( var i = 0; i < loop; i ++ ) {
+        for (var i = 0; i < loop; i++)
+        {
 
             sst3 = 3.0 * s * s * t;
             stt3 = 3.0 * s * t * t;
             ttt = t * t * t;
 
-            var ft = ( sst3 * x1 ) + ( stt3 * x2 ) + ( ttt ) - x;
+            var ft = (sst3 * x1) + (stt3 * x2) + (ttt) - x;
 
-            if ( math.abs( ft ) < eps ) break;
+            if (math.abs(ft) < eps) break;
 
             c /= 2.0;
 
-            t += ( ft < 0 ) ? c : -c;
+            t += (ft < 0) ? c : -c;
             s = 1.0 - t;
 
         }
 
-        return ( sst3 * y1 ) + ( stt3 * y2 ) + ttt;
+        return (sst3 * y1) + (stt3 * y2) + ttt;
     }
 }

@@ -6,50 +6,50 @@ export default class MMDGrantSolver {
         this.mesh = mesh;
     }
 
-	update = (() => {
-		var q = new THREE.Quaternion();
+    update = (() => {
+        var q = new THREE.Quaternion();
 
-		return function () {
+        return function () {
 
-			for ( var i = 0; i < this.mesh.geometry.grants.length; i ++ ) {
+            for ( var i = 0; i < this.mesh.geometry.grants.length; i ++ ) {
 
-				var g = this.mesh.geometry.grants[ i ];
-				var b = this.mesh.skeleton.bones[ g.index ];
-				var pb = this.mesh.skeleton.bones[ g.parentIndex ];
+                var g = this.mesh.geometry.grants[ i ];
+                var b = this.mesh.skeleton.bones[ g.index ];
+                var pb = this.mesh.skeleton.bones[ g.parentIndex ];
 
-				if ( g.isLocal ) {
+                if ( g.isLocal ) {
 
-					// TODO: implement
-					if ( g.affectPosition ) {
+                    // TODO: implement
+                    if ( g.affectPosition ) {
 
-					}
+                    }
 
-					// TODO: implement
-					if ( g.affectRotation ) {
+                    // TODO: implement
+                    if ( g.affectRotation ) {
 
-					}
+                    }
 
-				} else {
+                } else {
 
-					// TODO: implement
-					if ( g.affectPosition ) {
+                    // TODO: implement
+                    if ( g.affectPosition ) {
 
-					}
+                    }
 
-					if ( g.affectRotation ) {
+                    if ( g.affectRotation ) {
 
-						q.set( 0, 0, 0, 1 );
-						q.slerp( pb.quaternion, g.ratio );
-						b.quaternion.multiply( q );
+                        q.set( 0, 0, 0, 1 );
+                        q.slerp( pb.quaternion, g.ratio );
+                        b.quaternion.multiply( q );
 
-					}
+                    }
 
-				}
+                }
 
-			}
+            }
 
-		};
+        };
 
-	})()
+    })()
 
 };
