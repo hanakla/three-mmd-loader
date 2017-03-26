@@ -259,7 +259,7 @@ export class MMDLoader extends THREE.Loader {
 
 	pourVmdIntoCamera( camera, vmd, name ) {
 
-		var helper = new THREE.MMDLoader.DataCreationHelper();
+		var helper = new DataCreationHelper();
 
 		var initAnimation = function () {
 
@@ -507,7 +507,7 @@ export class MMDLoader extends THREE.Loader {
 		var scope = this;
 		var geometry = new THREE.BufferGeometry();
 		var material = new THREE.MultiMaterial();
-		var helper = new THREE.MMDLoader.DataCreationHelper();
+		var helper = new DataCreationHelper();
 
 		var buffer = {};
 
@@ -1527,7 +1527,7 @@ export class MMDLoader extends THREE.Loader {
 
 	createAnimation( mesh, vmd, name ) {
 
-		var helper = new THREE.MMDLoader.DataCreationHelper();
+		var helper = new DataCreationHelper();
 
 		var initMotionAnimations = function () {
 
