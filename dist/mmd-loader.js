@@ -80,6 +80,115 @@ module.exports = require('three');
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+const THREE = (((function () { return this || {}; })()).THREE || __webpack_require__(0));
+class CubicBezierInterpolation extends THREE.Interpolant {
+    constructor(parameterPositions, sampleValues, sampleSize, resultBuffer, params) {
+        super(parameterPositions, sampleValues, sampleSize, resultBuffer);
+        this.params = params;
+    }
+    interpolate_(i1, t0, t, t1) {
+        var result = this.resultBuffer;
+        var values = this.sampleValues;
+        var stride = this.valueSize;
+        var offset1 = i1 * stride;
+        var offset0 = offset1 - stride;
+        var weight1 = (t - t0) / (t1 - t0);
+        if (stride === 4) {
+            var x1 = this.params[i1 * 4 + 0];
+            var x2 = this.params[i1 * 4 + 1];
+            var y1 = this.params[i1 * 4 + 2];
+            var y2 = this.params[i1 * 4 + 3];
+            var ratio = this._calculate(x1, x2, y1, y2, weight1);
+            THREE.Quaternion.slerpFlat(result, 0, values, offset0, values, offset1, ratio);
+        }
+        else if (stride === 3) {
+            for (var i = 0; i !== stride; ++i) {
+                var x1 = this.params[i1 * 12 + i * 4 + 0];
+                var x2 = this.params[i1 * 12 + i * 4 + 1];
+                var y1 = this.params[i1 * 12 + i * 4 + 2];
+                var y2 = this.params[i1 * 12 + i * 4 + 3];
+                var ratio = this._calculate(x1, x2, y1, y2, weight1);
+                result[i] = values[offset0 + i] * (1 - ratio) + values[offset1 + i] * ratio;
+            }
+        }
+        else {
+            var x1 = this.params[i1 * 4 + 0];
+            var x2 = this.params[i1 * 4 + 1];
+            var y1 = this.params[i1 * 4 + 2];
+            var y2 = this.params[i1 * 4 + 3];
+            var ratio = this._calculate(x1, x2, y1, y2, weight1);
+            result[0] = values[offset0] * (1 - ratio) + values[offset1] * ratio;
+        }
+        return result;
+    }
+    _calculate(x1, x2, y1, y2, x) {
+        /*
+        * Cubic Bezier curves
+        *   https://en.wikipedia.org/wiki/B%C3%A9zier_curve#Cubic_B.C3.A9zier_curves
+        *
+        * B(t) = ( 1 - t ) ^ 3 * P0
+        *      + 3 * ( 1 - t ) ^ 2 * t * P1
+        *      + 3 * ( 1 - t ) * t^2 * P2
+        *      + t ^ 3 * P3
+        *      ( 0 <= t <= 1 )
+        *
+        * MMD uses Cubic Bezier curves for bone and camera animation interpolation.
+        *   http://d.hatena.ne.jp/edvakf/20111016/1318716097
+        *
+        *    x = ( 1 - t ) ^ 3 * x0
+        *      + 3 * ( 1 - t ) ^ 2 * t * x1
+        *      + 3 * ( 1 - t ) * t^2 * x2
+        *      + t ^ 3 * x3
+        *    y = ( 1 - t ) ^ 3 * y0
+        *      + 3 * ( 1 - t ) ^ 2 * t * y1
+        *      + 3 * ( 1 - t ) * t^2 * y2
+        *      + t ^ 3 * y3
+        *      ( x0 = 0, y0 = 0 )
+        *      ( x3 = 1, y3 = 1 )
+        *      ( 0 <= t, x1, x2, y1, y2 <= 1 )
+        *
+        * Here solves this equation with Bisection method,
+        *   https://en.wikipedia.org/wiki/Bisection_method
+        * gets t, and then calculate y.
+        *
+        * f(t) = 3 * ( 1 - t ) ^ 2 * t * x1
+        *      + 3 * ( 1 - t ) * t^2 * x2
+        *      + t ^ 3 - x = 0
+        *
+        * (Another option: Newton's method
+        *    https://en.wikipedia.org/wiki/Newton%27s_method)
+        */
+        var c = 0.5;
+        var t = c;
+        var s = 1.0 - t;
+        var loop = 15;
+        var eps = 1e-5;
+        var math = Math;
+        var sst3, stt3, ttt;
+        for (var i = 0; i < loop; i++) {
+            sst3 = 3.0 * s * s * t;
+            stt3 = 3.0 * s * t * t;
+            ttt = t * t * t;
+            var ft = (sst3 * x1) + (stt3 * x2) + (ttt) - x;
+            if (math.abs(ft) < eps)
+                break;
+            c /= 2.0;
+            t += (ft < 0) ? c : -c;
+            s = 1.0 - t;
+        }
+        return (sst3 * y1) + (stt3 * y2) + ttt;
+    }
+}
+exports.default = CubicBezierInterpolation;
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
 class MMDAudioManager {
     constructor(audio, listener, p) {
         var params = (p === null || p === undefined) ? {} : p;
@@ -128,7 +237,7 @@ exports.default = MMDAudioManager;
 
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -173,7 +282,7 @@ exports.default = MMDGrantSolver;
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -542,7 +651,7 @@ exports.default = MMDHelper;
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1593,115 +1702,6 @@ exports.default = MMDLoader;
 
 
 /***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const THREE = (((function () { return this || {}; })()).THREE || __webpack_require__(0));
-class CubicBezierInterpolation extends THREE.Interpolant {
-    constructor(parameterPositions, sampleValues, sampleSize, resultBuffer, params) {
-        super(parameterPositions, sampleValues, sampleSize, resultBuffer);
-        this.params = params;
-    }
-    interpolate_(i1, t0, t, t1) {
-        var result = this.resultBuffer;
-        var values = this.sampleValues;
-        var stride = this.valueSize;
-        var offset1 = i1 * stride;
-        var offset0 = offset1 - stride;
-        var weight1 = (t - t0) / (t1 - t0);
-        if (stride === 4) {
-            var x1 = this.params[i1 * 4 + 0];
-            var x2 = this.params[i1 * 4 + 1];
-            var y1 = this.params[i1 * 4 + 2];
-            var y2 = this.params[i1 * 4 + 3];
-            var ratio = this._calculate(x1, x2, y1, y2, weight1);
-            THREE.Quaternion.slerpFlat(result, 0, values, offset0, values, offset1, ratio);
-        }
-        else if (stride === 3) {
-            for (var i = 0; i !== stride; ++i) {
-                var x1 = this.params[i1 * 12 + i * 4 + 0];
-                var x2 = this.params[i1 * 12 + i * 4 + 1];
-                var y1 = this.params[i1 * 12 + i * 4 + 2];
-                var y2 = this.params[i1 * 12 + i * 4 + 3];
-                var ratio = this._calculate(x1, x2, y1, y2, weight1);
-                result[i] = values[offset0 + i] * (1 - ratio) + values[offset1 + i] * ratio;
-            }
-        }
-        else {
-            var x1 = this.params[i1 * 4 + 0];
-            var x2 = this.params[i1 * 4 + 1];
-            var y1 = this.params[i1 * 4 + 2];
-            var y2 = this.params[i1 * 4 + 3];
-            var ratio = this._calculate(x1, x2, y1, y2, weight1);
-            result[0] = values[offset0] * (1 - ratio) + values[offset1] * ratio;
-        }
-        return result;
-    }
-    _calculate(x1, x2, y1, y2, x) {
-        /*
-        * Cubic Bezier curves
-        *   https://en.wikipedia.org/wiki/B%C3%A9zier_curve#Cubic_B.C3.A9zier_curves
-        *
-        * B(t) = ( 1 - t ) ^ 3 * P0
-        *      + 3 * ( 1 - t ) ^ 2 * t * P1
-        *      + 3 * ( 1 - t ) * t^2 * P2
-        *      + t ^ 3 * P3
-        *      ( 0 <= t <= 1 )
-        *
-        * MMD uses Cubic Bezier curves for bone and camera animation interpolation.
-        *   http://d.hatena.ne.jp/edvakf/20111016/1318716097
-        *
-        *    x = ( 1 - t ) ^ 3 * x0
-        *      + 3 * ( 1 - t ) ^ 2 * t * x1
-        *      + 3 * ( 1 - t ) * t^2 * x2
-        *      + t ^ 3 * x3
-        *    y = ( 1 - t ) ^ 3 * y0
-        *      + 3 * ( 1 - t ) ^ 2 * t * y1
-        *      + 3 * ( 1 - t ) * t^2 * y2
-        *      + t ^ 3 * y3
-        *      ( x0 = 0, y0 = 0 )
-        *      ( x3 = 1, y3 = 1 )
-        *      ( 0 <= t, x1, x2, y1, y2 <= 1 )
-        *
-        * Here solves this equation with Bisection method,
-        *   https://en.wikipedia.org/wiki/Bisection_method
-        * gets t, and then calculate y.
-        *
-        * f(t) = 3 * ( 1 - t ) ^ 2 * t * x1
-        *      + 3 * ( 1 - t ) * t^2 * x2
-        *      + t ^ 3 - x = 0
-        *
-        * (Another option: Newton's method
-        *    https://en.wikipedia.org/wiki/Newton%27s_method)
-        */
-        var c = 0.5;
-        var t = c;
-        var s = 1.0 - t;
-        var loop = 15;
-        var eps = 1e-5;
-        var math = Math;
-        var sst3, stt3, ttt;
-        for (var i = 0; i < loop; i++) {
-            sst3 = 3.0 * s * s * t;
-            stt3 = 3.0 * s * t * t;
-            ttt = t * t * t;
-            var ft = (sst3 * x1) + (stt3 * x2) + (ttt) - x;
-            if (math.abs(ft) < eps)
-                break;
-            c /= 2.0;
-            t += (ft < 0) ? c : -c;
-            s = 1.0 - t;
-        }
-        return (sst3 * y1) + (stt3 * y2) + ttt;
-    }
-}
-exports.default = CubicBezierInterpolation;
-
-
-/***/ }),
 /* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1786,6 +1786,7 @@ exports.default = DataCreationHelper;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const THREE = (((function () { return this || {}; })()).THREE || __webpack_require__(0));
+const CubicBezierInterpolation_1 = __webpack_require__(1);
 class NumberKeyframeTrackEx extends THREE.NumberKeyframeTrack {
     constructor(name, times, values, interpolationParameterArray) {
         super(name, times, values);
@@ -1793,7 +1794,7 @@ class NumberKeyframeTrackEx extends THREE.NumberKeyframeTrack {
         this.interpolationParameters = new Float32Array(interpolationParameterArray);
     }
     InterpolantFactoryMethodCubicBezier(result) {
-        return new THREE.MMDLoader.CubicBezierInterpolation(this.times, this.values, this.getValueSize(), result, this.interpolationParameters);
+        return new CubicBezierInterpolation_1.default(this.times, this.values, this.getValueSize(), result, this.interpolationParameters);
     }
     setInterpolation(interpolation) {
         this.createInterpolant = this.InterpolantFactoryMethodCubicBezier;
@@ -1810,6 +1811,7 @@ exports.default = NumberKeyframeTrackEx;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const THREE = (((function () { return this || {}; })()).THREE || __webpack_require__(0));
+const CubicBezierInterpolation_1 = __webpack_require__(1);
 class QuaternionKeyframeTrackEx extends THREE.QuaternionKeyframeTrack {
     constructor(name, times, values, interpolationParameterArray) {
         super(name, times, values);
@@ -1817,7 +1819,7 @@ class QuaternionKeyframeTrackEx extends THREE.QuaternionKeyframeTrack {
         this.interpolationParameters = new Float32Array(interpolationParameterArray);
     }
     InterpolantFactoryMethodCubicBezier(result) {
-        return new THREE.MMDLoader.CubicBezierInterpolation(this.times, this.values, this.getValueSize(), result, this.interpolationParameters);
+        return new CubicBezierInterpolation_1.default(this.times, this.values, this.getValueSize(), result, this.interpolationParameters);
     }
     setInterpolation(interpolation) {
         this.createInterpolant = this.InterpolantFactoryMethodCubicBezier;
@@ -1834,7 +1836,7 @@ exports.default = QuaternionKeyframeTrackEx;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const THREE = (((function () { return this || {}; })()).THREE || __webpack_require__(0));
-const CubicBezierInterpolation_1 = __webpack_require__(5);
+const CubicBezierInterpolation_1 = __webpack_require__(1);
 /*
  * extends existing KeyframeTrack for bone and camera animation.
  *   - use Float64Array for times
@@ -1863,17 +1865,17 @@ exports.default = VectorKeyframeTrackEx;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const MMDLoader_1 = __webpack_require__(4);
-const MMDAudioManager_1 = __webpack_require__(1);
-const MMDGrantSolver_1 = __webpack_require__(2);
-const MMDHelper_1 = __webpack_require__(3);
-var MMDLoader_2 = __webpack_require__(4);
+const MMDLoader_1 = __webpack_require__(5);
+const MMDAudioManager_1 = __webpack_require__(2);
+const MMDGrantSolver_1 = __webpack_require__(3);
+const MMDHelper_1 = __webpack_require__(4);
+var MMDLoader_2 = __webpack_require__(5);
 exports.MMDLoader = MMDLoader_2.default;
-var MMDAudioManager_2 = __webpack_require__(1);
+var MMDAudioManager_2 = __webpack_require__(2);
 exports.MMDAudioManager = MMDAudioManager_2.default;
-var MMDGrantSolver_2 = __webpack_require__(2);
+var MMDGrantSolver_2 = __webpack_require__(3);
 exports.MMDGrantSolver = MMDGrantSolver_2.default;
-var MMDHelper_2 = __webpack_require__(3);
+var MMDHelper_2 = __webpack_require__(4);
 exports.MMDHelper = MMDHelper_2.default;
 var DataCreationHelper_1 = __webpack_require__(6);
 exports.DataCreationHelper = DataCreationHelper_1.default;
@@ -1883,7 +1885,7 @@ var QuaternionKeyframeTrackEx_1 = __webpack_require__(8);
 exports.QuaternionKeyframeTrackEx = QuaternionKeyframeTrackEx_1.default;
 var NumberKeyframeTrackEx_1 = __webpack_require__(7);
 exports.NumberKeyframeTrackEx = NumberKeyframeTrackEx_1.default;
-var CubicBezierInterpolation_1 = __webpack_require__(5);
+var CubicBezierInterpolation_1 = __webpack_require__(1);
 exports.CubicBezierInterpolation = CubicBezierInterpolation_1.default;
 exports.mixin = (THREE) => {
     THREE.MMDLoader = MMDLoader_1.default;
