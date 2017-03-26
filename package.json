@@ -5,7 +5,7 @@
   "main": "dist/mmd-loader.js",
   "author": "Ragg <Ragg-@users.noreply.github.com>",
   "license": "MIT",
-  "types": "src/mmd-loader.ts",
+  "types": "src/index.ts",
   "scripts": {
     "dev": "$(yarn bin)/webpack --watch",
     "build": "$(yarn bin)/webpack"
