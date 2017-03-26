@@ -37,7 +37,7 @@
  *  - shadow support.
  */
 
-import * as _THREE from 'three'
+import * as _THREE from 'three' // Type reference
 import * as MMDParser from 'mmd-parser'
 
 import DataCreationHelper from './DataCreationHelper'
