@@ -16,7 +16,7 @@
     "webpack": "^2.3.2"
   },
   "dependencies": {
-    "@types/three": "^0.84.3",
+    "@types/three": "*",
     "mmd-parser": "^1.0.3"
   },
   "peerDependencies": {
