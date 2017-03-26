@@ -1,0 +1,17 @@
+{
+  "name": "three-mmd-loader",
+  "version": "0.0.0",
+  "description": "MMD pmd/pmx/vmd loader for Three.js",
+  "main": "dist/mmd-loader.js",
+  "author": "Ragg <Ragg-@users.noreply.github.com>",
+  "license": "MIT",
+  "types": "src/mmd-loader.ts",
+  "scripts": {
+    "dev": "$(yarn bin)/webpack --watch"
+  },
+  "devDependencies": {
+    "awesome-typescript-loader": "^3.1.2",
+    "typescript": "^2.2.1",
+    "webpack": "^2.3.2"
+  }
+}
