@@ -464,7 +464,7 @@ export class MMDLoader extends THREE.Loader {
 
 	}
 
-	loadFile( url, onLoad, onProgress, onError, responseType, mimeType ) {
+	loadFile( url, onLoad, onProgress, onError, responseType, mimeType? ) {
 
 		var loader = new THREE.FileLoader( this.manager );
 
