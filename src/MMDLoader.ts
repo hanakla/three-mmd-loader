@@ -2,12 +2,12 @@
  * @author takahiro / https://github.com/takahirox
  *
  * Dependencies
- *  - mmd-parser https://github.com/takahirox/mmd-parser
- *  - ammo.js https://github.com/kripken/ammo.js
- *  - THREE.TGALoader
- *  - THREE.MMDPhysics
- *  - THREE.CCDIKSolver
- *  - THREE.OutlineEffect
+ *  - [x] mmd-parser https://github.com/takahirox/mmd-parser
+ *  - [ ] ammo.js https://github.com/kripken/ammo.js
+ *  - [ ] THREE.TGALoader
+ *  - [ ] THREE.MMDPhysics
+ *  - [ ] THREE.CCDIKSolver
+ *  - [ ] THREE.OutlineEffect
  *
  *
  * This loader loads and parses PMD/PMX and VMD binary files
