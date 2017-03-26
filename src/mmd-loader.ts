@@ -40,6 +40,8 @@
 import * as _THREE from 'three'
 import * as MMDParser from 'mmd-parser'
 
+import DataCreationHelper from './DataCreationHelper'
+
 const THREE: typeof _THREE = ((function () { return this })().THREE || require('three')) as typeof _THREE
 
 // export to THREE
@@ -1659,134 +1661,7 @@ export class MMDLoader extends THREE.Loader {
 	}
 }
 
-THREE.MMDLoader.DataCreationHelper = function () {
 
-};
-
-THREE.MMDLoader.DataCreationHelper.prototype = {
-
-	constructor: THREE.MMDLoader.DataCreationHelper,
-
-	/*
-         * Note: Sometimes to use Japanese Unicode characters runs into problems in Three.js.
-	 *       In such a case, use this method to convert it to Unicode hex charcode strings,
-         *       like 'あいう' -> '0x30420x30440x3046'
-         */
-	toCharcodeStrings: function ( s ) {
-
-		var str = '';
-
-		for ( var i = 0; i < s.length; i++ ) {
-
-			str += '0x' + ( '0000' + s[ i ].charCodeAt().toString( 16 ) ).substr( -4 );
-
-		}
-
-		return str;
-
-	},
-
-	createDictionary: function ( array ) {
-
-		var dict = {};
-
-		for ( var i = 0; i < array.length; i++ ) {
-
-			dict[ array[ i ].name ] = i;
-
-		}
-
-		return dict;
-
-	},
-
-	initializeMotionArrays: function ( array ) {
-
-		var result = [];
-
-		for ( var i = 0; i < array.length; i++ ) {
-
-			result[ i ] = [];
-
-		}
-
-		return result;
-
-	},
-
-	sortMotionArray: function ( array ) {
-
-		array.sort( function ( a, b ) {
-
-			return a.frameNum - b.frameNum;
-
-		} ) ;
-
-	},
-
-	sortMotionArrays: function ( arrays ) {
-
-		for ( var i = 0; i < arrays.length; i++ ) {
-
-			this.sortMotionArray( arrays[ i ] );
-
-		}
-
-	},
-
-	createMotionArray: function ( array ) {
-
-		var result = [];
-
-		for ( var i = 0; i < array.length; i++ ) {
-
-			result.push( array[ i ] );
-
-		}
-
-		return result;
-
-	},
-
-	createMotionArrays: function ( array, result, dict, key ) {
-
-		for ( var i = 0; i < array.length; i++ ) {
-
-			var a = array[ i ];
-			var num = dict[ a[ key ] ];
-
-			if ( num === undefined ) {
-
-				continue;
-
-			}
-
-			result[ num ].push( a );
-
-		}
-
-	},
-
-	createOrderedMotionArray: function ( array ) {
-
-		var result = this.createMotionArray( array );
-		this.sortMotionArray( result );
-		return result;
-
-	},
-
-	createOrderedMotionArrays: function ( targetArray, motionArray, key ) {
-
-		var dict = this.createDictionary( targetArray );
-		var result = this.initializeMotionArrays( targetArray );
-		this.createMotionArrays( motionArray, result, dict, key );
-		this.sortMotionArrays( result );
-
-		return result;
-
-	}
-
-};
 
 /*
  * extends existing KeyframeTrack for bone and camera animation.
