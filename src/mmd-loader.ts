@@ -41,6 +41,7 @@ import * as _THREE from 'three'
 import * as MMDParser from 'mmd-parser'
 
 import DataCreationHelper from './DataCreationHelper'
+import VectorKeyframeTrackEx from './VectorKeyframeTrackEx'
 
 const THREE: typeof _THREE = ((function () { return this })().THREE || require('three')) as typeof _THREE
 
@@ -1597,7 +1598,7 @@ export class MMDLoader extends THREE.Loader {
 
 				var boneName = '.bones[' + bone.name + ']';
 
-				tracks.push( new THREE.MMDLoader.VectorKeyframeTrackEx( boneName + '.position', times, positions, pInterpolations ) );
+				tracks.push( new VectorKeyframeTrackEx( boneName + '.position', times, positions, pInterpolations ) );
 				tracks.push( new THREE.MMDLoader.QuaternionKeyframeTrackEx( boneName + '.quaternion', times, rotations, rInterpolations ) );
 
 			}
