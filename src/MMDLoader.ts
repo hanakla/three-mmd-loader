@@ -50,9 +50,6 @@ import CubicBezierInterpolation from './CubicBezierInterpolation'
 
 const THREE: typeof _THREE = ((function () { return this })().THREE || require('three')) as typeof _THREE
 
-// export to THREE
-THREE && THREE.MMDLoader = MMDLoader
-
 export default class MMDLoader extends THREE.Loader {
     manager: _THREE.LoadingManager
     parser: MMDParser.Parser
