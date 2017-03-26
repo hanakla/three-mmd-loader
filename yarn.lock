@@ -2,6 +2,16 @@
 # yarn lockfile v1
 
 
+"@types/three@^0.84.3":
+  version "0.84.3"
+  resolved "https://registry.yarnpkg.com/@types/three/-/three-0.84.3.tgz#1ba85df57e7fb2bdd6f4cf60cc203c3e902e6846"
+  dependencies:
+    "@types/webvr-api" "*"
+
+"@types/webvr-api@*":
+  version "0.0.31"
+  resolved "https://registry.yarnpkg.com/@types/webvr-api/-/webvr-api-0.0.31.tgz#f6061fe88a035d34a8b6a0c55f8758901ec8a08e"
+
 abbrev@1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.0.tgz#d0554c2256636e2f56e7c2e5ad183f859428d81f"
@@ -1011,6 +1021,10 @@ minimist@^1.2.0:
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.1.tgz#30057438eac6cf7f8c4767f38648d6697d75c903"
   dependencies:
     minimist "0.0.8"
+
+mmd-parser@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/mmd-parser/-/mmd-parser-1.0.3.tgz#7e4e475d076729e592c3e6bbe9298d7b841ed3ed"
 
 ms@0.7.2:
   version "0.7.2"
