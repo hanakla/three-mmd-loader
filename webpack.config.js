@@ -9,6 +9,8 @@ module.exports = {
   output: {
     filename: '[name].js',
     path: path.join(__dirname, 'dist'),
+    library: 'THREE.MMDLoader',
+    libraryTarget: 'commonjs-module',
   },
   resolve: {
       extensions: ['.js', '.ts'],
