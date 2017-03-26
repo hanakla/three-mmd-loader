@@ -1,5 +1,5 @@
 import * as _THREE from 'three' // Type reference
-const THREE: typeof _THREE = (((function () { return this })()).THREE || require('three')) as typeof _THREE
+const THREE: typeof _THREE = (((function () { return this || {} })()).THREE || require('three')) as typeof _THREE
 
 export default class MMDGrantSolver {
     constructor( mesh ) {
