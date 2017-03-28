@@ -1,6 +1,7 @@
 import THREE from './three'
 
 import MMDPhysics from './MMDPhysics'
+import CCDIKSolver from './CCDIKSolver'
 import MMDGrantSolver from './MMDGrantSolver'
 
 export default class MMDHelper
@@ -200,7 +201,7 @@ export default class MMDHelper
 
             if (foundAnimation)
             {
-                mesh.ikSolver = new THREE.CCDIKSolver(mesh);
+                mesh.ikSolver = new CCDIKSolver(mesh);
 
                 if (mesh.geometry.grants !== undefined)
                 {
@@ -468,7 +469,7 @@ export default class MMDHelper
 
         if (params.preventIk !== true)
         {
-            var solver = new THREE.CCDIKSolver(mesh);
+            var solver = new CCDIKSolver(mesh);
             solver.update(params.saveOriginalBonesBeforeIK);
         }
 
