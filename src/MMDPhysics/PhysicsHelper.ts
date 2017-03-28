@@ -1,12 +1,11 @@
-import * as _THREE from 'three' // Type reference
-const THREE: typeof _THREE = (((function () { return this || {} })()).THREE || require('three')) as typeof _THREE
+import THREE from '../three'
 
 export default class MMDPhysicsHelper extends THREE.Object3D
 {
-    root: _THREE.Mesh
-    materials: _THREE.Material[]
+    root: THREE.Mesh
+    materials: THREE.Material[]
 
-    constructor(mesh: _THREE.SkinnedMesh)
+    constructor(mesh: THREE.SkinnedMesh)
     {
         super();
 
@@ -72,7 +71,7 @@ export default class MMDPhysicsHelper extends THREE.Object3D
 
     }
 
-    private _createGeometry(param: {shapeType:0|1|2, width: number, height: number, depth: number}): _THREE.BufferGeometry
+    private _createGeometry(param: {shapeType:0|1|2, width: number, height: number, depth: number}): THREE.BufferGeometry
     {
         switch (param.shapeType)
         {
@@ -91,7 +90,7 @@ export default class MMDPhysicsHelper extends THREE.Object3D
     }
 
     // copy from http://www20.atpages.jp/katwat/three.js_r58/examples/mytest37/mytest37.js?ver=20160815
-    private _createCapsuleGeometry(radius, cylinderHeight, segmentsRadius, segmentsHeight): _THREE.CylinderBufferGeometry
+    private _createCapsuleGeometry(radius, cylinderHeight, segmentsRadius, segmentsHeight): THREE.CylinderBufferGeometry
     {
         var geometry = new THREE.CylinderBufferGeometry(radius, radius, cylinderHeight, segmentsRadius, segmentsHeight, true);
         var upperSphere = new THREE.Mesh(new THREE.SphereBufferGeometry(radius, segmentsRadius, segmentsHeight, 0, Math.PI * 2, 0, Math.PI / 2));
@@ -103,8 +102,8 @@ export default class MMDPhysicsHelper extends THREE.Object3D
         upperSphere.updateMatrix();
         lowerSphere.updateMatrix();
 
-        geometry.merge(upperSphere.geometry as _THREE.BufferGeometry, upperSphere.matrix);
-        geometry.merge(lowerSphere.geometry as _THREE.BufferGeometry, lowerSphere.matrix);
+        geometry.merge(upperSphere.geometry as THREE.BufferGeometry, upperSphere.matrix);
+        geometry.merge(lowerSphere.geometry as THREE.BufferGeometry, lowerSphere.matrix);
 
         return geometry;
     }

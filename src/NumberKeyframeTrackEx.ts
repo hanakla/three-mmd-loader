@@ -1,5 +1,4 @@
-import * as _THREE from 'three' // Type reference
-const THREE: typeof _THREE = (((function () { return this || {} })()).THREE || require('three')) as typeof _THREE
+import THREE from './three'
 
 import CubicBezierInterpolation from './CubicBezierInterpolation';
 

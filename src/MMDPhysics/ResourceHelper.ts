@@ -1,5 +1,4 @@
-import * as _THREE from 'three' // Type reference
-const THREE: typeof _THREE = (((function () { return this || {} })()).THREE || require('three')) as typeof _THREE
+import THREE from '../three'
 
 import * as Ammo from 'ammo.js'
 
@@ -14,10 +13,10 @@ import * as Ammo from 'ammo.js'
  */
 export default class ResourceHelper
 {
-    threeVector3s: _THREE.Vector3[]
-    threeMatrix4s: _THREE.Matrix4[]
-    threeQuaternions: _THREE.Quaternion[]
-    threeEulers: _THREE.Euler[]
+    threeVector3s: THREE.Vector3[]
+    threeMatrix4s: THREE.Matrix4[]
+    threeQuaternions: THREE.Quaternion[]
+    threeEulers: THREE.Euler[]
 
     transforms: any[]
     quaternions: any[]

@@ -37,7 +37,7 @@
  *  - shadow support.
  */
 
-import * as _THREE from 'three' // Type reference
+import THREE from './three'
 import * as MMDParser from 'mmd-parser'
 
 import DataCreationHelper from './DataCreationHelper'
@@ -47,8 +47,6 @@ import VectorKeyframeTrackEx from './VectorKeyframeTrackEx'
 import QuaternionKeyframeTrackEx from './QuaternionKeyframeTrackEx'
 import NumberKeyframeTrackEx from './NumberKeyframeTrackEx'
 import CubicBezierInterpolation from './CubicBezierInterpolation'
-
-const THREE: typeof _THREE = (((function () { return this || {} })()).THREE || require('three')) as typeof _THREE
 
 const KeyframeTrackers = {
     VectorKeyframeTrackEx,
