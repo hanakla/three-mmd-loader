@@ -1,3 +1,7 @@
+import * as _THREE from 'three' // Type reference
+
+import MMDGrantSolver from './MMDGrantSolver'
+
 export default class MMDHelper
 {
     constructor()
@@ -17,7 +21,7 @@ export default class MMDHelper
         this.camera = null;
     }
 
-    add(mesh)
+    add(mesh: _THREE.Mesh)
     {
         if (!(mesh instanceof THREE.SkinnedMesh))
         {
@@ -55,10 +59,8 @@ export default class MMDHelper
         }
     }
 
-    setPhysics(mesh, params)
+    setPhysics(mesh: _THREE.SkinnedMesh, params: {world?: any, warmup?: number, preventAnimationWarmup?: boolean} = {})
     {
-        params = (params === undefined) ? {} : Object.assign({}, params);
-
         if (params.world === undefined && this.sharedPhysics)
         {
             var masterPhysics = this.getMasterPhysics();
@@ -329,7 +331,7 @@ export default class MMDHelper
         this.animateCamera(delta);
     }
 
-    animateOneMesh(delta, mesh)
+    animateOneMesh(delta, mesh: _THREE.SkinnedMesh)
     {
         var mixer = mesh.mixer;
         var ikSolver = mesh.ikSolver;

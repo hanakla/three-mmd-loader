@@ -168,7 +168,7 @@ export default class MMDLoader extends THREE.Loader
         });
     }
 
-    parseModel(buffer: ArrayBuffer, modelExtension: string)
+    parseModel(buffer: ArrayBuffer, modelExtension: string): MMDParser.Pmd|MMDParser.Pmx
     {
         // Should I judge from model data header?
         switch (modelExtension.toLowerCase())
@@ -181,7 +181,6 @@ export default class MMDLoader extends THREE.Loader
 
             default:
                 throw 'extension ' + modelExtension + ' is not supported.';
-
         }
     }
 
