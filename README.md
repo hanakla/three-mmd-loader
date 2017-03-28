@@ -4,6 +4,9 @@ MMD pmd/pmx/vmd loader for Three.js (based on [MMDLoader](https://github.com/mrd
 ## difference from MMDLoader
 - Rewritten by TypeScript
 - Support ES2015 modules (without force mixin to three.js)
+- Bundle dependencies (MMDPhysics / CCDIKResolver)
+- Managed depnedencies by package.json (mmd-parser / ammo.js)
+  - `three.js` is registered as peerDependencies
 - Promise API for Asset loading
   ```javascript
   import {MMDLoader} from 'three-mmd-loader';
