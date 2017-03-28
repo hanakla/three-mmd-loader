@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@types/three@^0.84.3":
+"@types/three@*":
   version "0.84.3"
   resolved "https://registry.yarnpkg.com/@types/three/-/three-0.84.3.tgz#1ba85df57e7fb2bdd6f4cf60cc203c3e902e6846"
   dependencies:
@@ -44,6 +44,10 @@ align-text@^0.1.1, align-text@^0.1.3:
     kind-of "^3.0.2"
     longest "^1.0.1"
     repeat-string "^1.5.2"
+
+ammo.js@^0.0.10:
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/ammo.js/-/ammo.js-0.0.10.tgz#afd16e7186dd3cf784374464f3a4e58f37776950"
 
 ansi-regex@^2.0.0:
   version "2.1.1"
@@ -1556,10 +1560,6 @@ tar@^2.2.1:
     block-stream "*"
     fstream "^1.0.2"
     inherits "2"
-
-three@^0.84.0:
-  version "0.84.0"
-  resolved "https://registry.yarnpkg.com/three/-/three-0.84.0.tgz#95be85a55a0fa002aa625ed559130957dcffd918"
 
 timers-browserify@^2.0.2:
   version "2.0.2"

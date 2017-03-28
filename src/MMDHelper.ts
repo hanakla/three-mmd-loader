@@ -1,5 +1,6 @@
 import * as _THREE from 'three' // Type reference
 
+import MMDPhysics from './MMDPhysics'
 import MMDGrantSolver from './MMDGrantSolver'
 
 export default class MMDHelper
@@ -70,7 +71,7 @@ export default class MMDHelper
 
         var warmup = params.warmup !== undefined ? params.warmup : 60;
 
-        var physics = new THREE.MMDPhysics(mesh, params);
+        var physics = new MMDPhysics(mesh, params);
 
         if (mesh.mixer !== null && mesh.mixer !== undefined && params.preventAnimationWarmup !== true)
         {

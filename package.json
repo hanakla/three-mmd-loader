@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@types/three": "*",
+    "ammo.js": "^0.0.10",
     "mmd-parser": "^1.0.3"
   },
   "peerDependencies": {
