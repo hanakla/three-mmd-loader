@@ -64,7 +64,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 17);
+/******/ 	return __webpack_require__(__webpack_require__.s = 20);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -79,7 +79,7 @@ if (typeof window !== 'undefined' && window.THREE) {
     t = window.THREE;
 }
 else if (true) {
-    t = __webpack_require__(19);
+    t = __webpack_require__(22);
 }
 else {
     throw new Error('Can\'t resolve THREE');
@@ -243,12 +243,31 @@ exports.default = MMDGrantSolver;
 
 /***/ }),
 /* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Constraint_1 = __webpack_require__(13);
+exports.Constraint = Constraint_1.default;
+var PhysicsHelper_1 = __webpack_require__(19);
+exports.PhysicsHelper = PhysicsHelper_1.default;
+var ResourceHelper_1 = __webpack_require__(14);
+exports.ResourceHelper = ResourceHelper_1.default;
+var RigidBody_1 = __webpack_require__(15);
+exports.RigidBody = RigidBody_1.default;
+var MMDPhysics_1 = __webpack_require__(18);
+exports.default = MMDPhysics_1.default;
+
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports) {
 
 module.exports = require('ammo.js');
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -302,14 +321,15 @@ exports.default = MMDAudioManager;
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const three_1 = __webpack_require__(0);
-const MMDPhysics_1 = __webpack_require__(16);
+const MMDPhysics_1 = __webpack_require__(3);
+const CCDIKSolver_1 = __webpack_require__(8);
 const MMDGrantSolver_1 = __webpack_require__(2);
 class MMDHelper {
     constructor() {
@@ -447,7 +467,7 @@ class MMDHelper {
                 }
             }
             if (foundAnimation) {
-                mesh.ikSolver = new three_1.default.CCDIKSolver(mesh);
+                mesh.ikSolver = new CCDIKSolver_1.default(mesh);
                 if (mesh.geometry.grants !== undefined) {
                     mesh.grantSolver = new MMDGrantSolver_1.default(mesh);
                 }
@@ -623,7 +643,7 @@ class MMDHelper {
         }
         mesh.updateMatrixWorld(true);
         if (params.preventIk !== true) {
-            var solver = new three_1.default.CCDIKSolver(mesh);
+            var solver = new CCDIKSolver_1.default(mesh);
             solver.update(params.saveOriginalBonesBeforeIK);
         }
         if (params.preventGrant !== true && mesh.geometry.grants !== undefined) {
@@ -673,7 +693,7 @@ exports.default = MMDHelper;
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -682,10 +702,10 @@ exports.default = MMDHelper;
  *
  * Dependencies
  *  - [x] mmd-parser https://github.com/takahirox/mmd-parser
- *  - [ ] ammo.js https://github.com/kripken/ammo.js
+ *  - [x] ammo.js https://github.com/kripken/ammo.js
  *  - [ ] THREE.TGALoader
- *  - [ ] THREE.MMDPhysics
- *  - [ ] THREE.CCDIKSolver
+ *  - [x] THREE.MMDPhysics
+ *  - [x] THREE.CCDIKSolver
  *  - [ ] THREE.OutlineEffect
  *
  *
@@ -726,11 +746,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const three_1 = __webpack_require__(0);
-const MMDParser = __webpack_require__(18);
-const DataCreationHelper_1 = __webpack_require__(7);
-const VectorKeyframeTrackEx_1 = __webpack_require__(10);
-const QuaternionKeyframeTrackEx_1 = __webpack_require__(9);
-const NumberKeyframeTrackEx_1 = __webpack_require__(8);
+const MMDParser = __webpack_require__(21);
+const DataCreationHelper_1 = __webpack_require__(9);
+const VectorKeyframeTrackEx_1 = __webpack_require__(12);
+const QuaternionKeyframeTrackEx_1 = __webpack_require__(11);
+const NumberKeyframeTrackEx_1 = __webpack_require__(10);
 const KeyframeTrackers = {
     VectorKeyframeTrackEx: VectorKeyframeTrackEx_1.default,
     QuaternionKeyframeTrackEx: QuaternionKeyframeTrackEx_1.default,
@@ -1724,7 +1744,20 @@ exports.default = MMDLoader;
 
 
 /***/ }),
-/* 7 */
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var CCDIKHelper_1 = __webpack_require__(16);
+exports.CCDIKHelper = CCDIKHelper_1.default;
+var CCDIKSolver_1 = __webpack_require__(17);
+exports.default = CCDIKSolver_1.default;
+
+
+/***/ }),
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1801,7 +1834,7 @@ exports.default = DataCreationHelper;
 
 
 /***/ }),
-/* 8 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1826,7 +1859,7 @@ exports.default = NumberKeyframeTrackEx;
 
 
 /***/ }),
-/* 9 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1851,7 +1884,7 @@ exports.default = QuaternionKeyframeTrackEx;
 
 
 /***/ }),
-/* 10 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1881,13 +1914,13 @@ exports.default = VectorKeyframeTrackEx;
 
 
 /***/ }),
-/* 11 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const Ammo = __webpack_require__(3);
+const Ammo = __webpack_require__(4);
 class Constraint {
     constructor(mesh, world, bodyA, bodyB, params, helper) {
         this.mesh = mesh;
@@ -1972,14 +2005,14 @@ exports.default = Constraint;
 
 
 /***/ }),
-/* 12 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const three_1 = __webpack_require__(0);
-const Ammo = __webpack_require__(3);
+const Ammo = __webpack_require__(4);
 /**
  * This helper class responsibilies are
  *
@@ -2272,13 +2305,13 @@ exports.default = ResourceHelper;
 
 
 /***/ }),
-/* 13 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const Ammo = __webpack_require__(3);
+const Ammo = __webpack_require__(4);
 class RigidBody {
     constructor(mesh, world, params, helper) {
         this.mesh = mesh;
@@ -2450,7 +2483,293 @@ exports.default = RigidBody;
 
 
 /***/ }),
-/* 14 */
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const three_1 = __webpack_require__(0);
+class CCDIKHelper extends three_1.default.Object3D {
+    constructor(mesh) {
+        super();
+        if (mesh.geometry.iks === undefined || mesh.skeleton === undefined) {
+            throw 'THREE.CCDIKHelper requires iks in mesh.geometry and skeleton in mesh.';
+        }
+        three_1.default.Object3D.call(this);
+        this.root = mesh;
+        this.matrix = mesh.matrixWorld;
+        this.matrixAutoUpdate = false;
+        this.sphereGeometry = new three_1.default.SphereBufferGeometry(0.25, 16, 8);
+        this.targetSphereMaterial = new three_1.default.MeshBasicMaterial({
+            color: new three_1.default.Color(0xff8888),
+            depthTest: false,
+            depthWrite: false,
+            transparent: true
+        });
+        this.effectorSphereMaterial = new three_1.default.MeshBasicMaterial({
+            color: new three_1.default.Color(0x88ff88),
+            depthTest: false,
+            depthWrite: false,
+            transparent: true
+        });
+        this.linkSphereMaterial = new three_1.default.MeshBasicMaterial({
+            color: new three_1.default.Color(0x8888ff),
+            depthTest: false,
+            depthWrite: false,
+            transparent: true
+        });
+        this.lineMaterial = new three_1.default.LineBasicMaterial({
+            color: new three_1.default.Color(0xff0000),
+            depthTest: false,
+            depthWrite: false,
+            transparent: true
+        });
+        this._init();
+        this.update();
+    }
+    _init() {
+        var self = this;
+        var mesh = this.root;
+        var iks = mesh.geometry.iks;
+        function createLineGeometry(ik) {
+            var geometry = new three_1.default.BufferGeometry();
+            var vertices = new Float32Array((2 + ik.links.length) * 3);
+            geometry.addAttribute('position', new three_1.default.BufferAttribute(vertices, 3));
+            return geometry;
+        }
+        function createTargetMesh() {
+            return new three_1.default.Mesh(self.sphereGeometry, self.targetSphereMaterial);
+        }
+        function createEffectorMesh() {
+            return new three_1.default.Mesh(self.sphereGeometry, self.effectorSphereMaterial);
+        }
+        function createLinkMesh() {
+            return new three_1.default.Mesh(self.sphereGeometry, self.linkSphereMaterial);
+        }
+        function createLine(ik) {
+            return new three_1.default.Line(createLineGeometry(ik), self.lineMaterial);
+        }
+        for (var i = 0, il = iks.length; i < il; i++) {
+            var ik = iks[i];
+            this.add(createTargetMesh());
+            this.add(createEffectorMesh());
+            for (var j = 0, jl = ik.links.length; j < jl; j++) {
+                this.add(createLinkMesh());
+            }
+            this.add(createLine(ik));
+        }
+    }
+    update() {
+        var offset = 0;
+        var mesh = this.root;
+        var iks = mesh.geometry.iks;
+        var bones = mesh.skeleton.bones;
+        var matrixWorldInv = new three_1.default.Matrix4().getInverse(mesh.matrixWorld);
+        var vector = new three_1.default.Vector3();
+        function getPosition(bone) {
+            vector.setFromMatrixPosition(bone.matrixWorld);
+            vector.applyMatrix4(matrixWorldInv);
+            return vector;
+        }
+        function setPositionOfBoneToAttributeArray(array, index, bone) {
+            var v = getPosition(bone);
+            array[index * 3 + 0] = v.x;
+            array[index * 3 + 1] = v.y;
+            array[index * 3 + 2] = v.z;
+        }
+        for (var i = 0, il = iks.length; i < il; i++) {
+            var ik = iks[i];
+            var targetBone = bones[ik.target];
+            var effectorBone = bones[ik.effector];
+            var targetMesh = this.children[offset++];
+            var effectorMesh = this.children[offset++];
+            targetMesh.position.copy(getPosition(targetBone));
+            effectorMesh.position.copy(getPosition(effectorBone));
+            for (var j = 0, jl = ik.links.length; j < jl; j++) {
+                var link = ik.links[j];
+                var linkBone = bones[link.index];
+                var linkMesh = this.children[offset++];
+                linkMesh.position.copy(getPosition(linkBone));
+            }
+            var line = this.children[offset++];
+            var array = line.geometry.attributes.position.array;
+            setPositionOfBoneToAttributeArray(array, 0, targetBone);
+            setPositionOfBoneToAttributeArray(array, 1, effectorBone);
+            for (var j = 0, jl = ik.links.length; j < jl; j++) {
+                var link = ik.links[j];
+                var linkBone = bones[link.index];
+                setPositionOfBoneToAttributeArray(array, j + 2, linkBone);
+            }
+            line.geometry.attributes.position.needsUpdate = true;
+        }
+    }
+}
+exports.default = CCDIKHelper;
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const three_1 = __webpack_require__(0);
+/**
+ * @author takahiro / https://github.com/takahirox
+ *
+ * CCD Algorithm
+ *  https://sites.google.com/site/auraliusproject/ccd-algorithm
+ *
+ * mesh.geometry needs to have iks array.
+ *
+ * // ik parameter example
+ * //
+ * // target, effector, index in links are bone index in skeleton.
+ * // the bones relation should be
+ * // <-- parent                                  child -->
+ * // links[ n ], links[ n - 1 ], ..., links[ 0 ], effector
+ * ik = {
+ *    target: 1,
+ *    effector: 2,
+ *    links: [ { index: 5, limitation: new THREE.Vector3( 1, 0, 0 ) }, { index: 4, enabled: false }, { index : 3 } ],
+ *    iteration: 10,
+ *    minAngle: 0.0,
+ *    maxAngle: 1.0,
+ * };
+ */
+class CCDIKSolver {
+    constructor(mesh) {
+        this.mesh = mesh;
+        this._valid();
+    }
+    _valid() {
+        var iks = this.mesh.geometry.iks;
+        var bones = this.mesh.skeleton.bones;
+        for (var i = 0, il = iks.length; i < il; i++) {
+            var ik = iks[i];
+            var effector = bones[ik.effector];
+            var links = ik.links;
+            var link0, link1;
+            link0 = effector;
+            for (var j = 0, jl = links.length; j < jl; j++) {
+                link1 = bones[links[j].index];
+                if (link0.parent !== link1) {
+                    console.warn('THREE.CCDIKSolver: bone ' + link0.name + ' is not the child of bone ' + link1.name);
+                }
+                link0 = link1;
+            }
+        }
+    }
+    /**
+     * save the bone matrices before solving IK.
+     * they're used for generating VMD and VPD.
+     */
+    _saveOriginalBonesInfo() {
+        var bones = this.mesh.skeleton.bones;
+        for (var i = 0, il = bones.length; i < il; i++) {
+            var bone = bones[i];
+            if (bone.userData.ik === undefined)
+                bone.userData.ik = {};
+            bone.userData.ik.originalMatrix = bone.matrix.toArray();
+        }
+    }
+    update(saveOriginalBones) {
+        var q = new three_1.default.Quaternion();
+        var targetPos = new three_1.default.Vector3();
+        var targetVec = new three_1.default.Vector3();
+        var effectorPos = new three_1.default.Vector3();
+        var effectorVec = new three_1.default.Vector3();
+        var linkPos = new three_1.default.Vector3();
+        var invLinkQ = new three_1.default.Quaternion();
+        var linkScale = new three_1.default.Vector3();
+        var axis = new three_1.default.Vector3();
+        var bones = this.mesh.skeleton.bones;
+        var iks = this.mesh.geometry.iks;
+        var boneParams = this.mesh.geometry.bones;
+        // for reference overhead reduction in loop
+        var math = Math;
+        this.mesh.updateMatrixWorld(true);
+        if (saveOriginalBones === true)
+            this._saveOriginalBonesInfo();
+        for (var i = 0, il = iks.length; i < il; i++) {
+            var ik = iks[i];
+            var effector = bones[ik.effector];
+            var target = bones[ik.target];
+            // don't use getWorldPosition() here for the performance
+            // because it calls updateMatrixWorld( true ) inside.
+            targetPos.setFromMatrixPosition(target.matrixWorld);
+            var links = ik.links;
+            var iteration = ik.iteration !== undefined ? ik.iteration : 1;
+            for (var j = 0; j < iteration; j++) {
+                var rotated = false;
+                for (var k = 0, kl = links.length; k < kl; k++) {
+                    var link = bones[links[k].index];
+                    // skip this link and following links.
+                    // this skip is used for MMD performance optimization.
+                    if (links[k].enabled === false)
+                        break;
+                    var limitation = links[k].limitation;
+                    // don't use getWorldPosition/Quaternion() here for the performance
+                    // because they call updateMatrixWorld( true ) inside.
+                    link.matrixWorld.decompose(linkPos, invLinkQ, linkScale);
+                    invLinkQ.inverse();
+                    effectorPos.setFromMatrixPosition(effector.matrixWorld);
+                    // work in link world
+                    effectorVec.subVectors(effectorPos, linkPos);
+                    effectorVec.applyQuaternion(invLinkQ);
+                    effectorVec.normalize();
+                    targetVec.subVectors(targetPos, linkPos);
+                    targetVec.applyQuaternion(invLinkQ);
+                    targetVec.normalize();
+                    var angle = targetVec.dot(effectorVec);
+                    if (angle > 1.0) {
+                        angle = 1.0;
+                    }
+                    else if (angle < -1.0) {
+                        angle = -1.0;
+                    }
+                    angle = math.acos(angle);
+                    // skip if changing angle is too small to prevent vibration of bone
+                    // Refer to http://www20.atpages.jp/katwat/three.js_r58/examples/mytest37/mmd.three.js
+                    if (angle < 1e-5)
+                        continue;
+                    if (ik.minAngle !== undefined && angle < ik.minAngle) {
+                        angle = ik.minAngle;
+                    }
+                    if (ik.maxAngle !== undefined && angle > ik.maxAngle) {
+                        angle = ik.maxAngle;
+                    }
+                    axis.crossVectors(effectorVec, targetVec);
+                    axis.normalize();
+                    q.setFromAxisAngle(axis, angle);
+                    link.quaternion.multiply(q);
+                    // TODO: re-consider the limitation specification
+                    if (limitation !== undefined) {
+                        var c = link.quaternion.w;
+                        if (c > 1.0) {
+                            c = 1.0;
+                        }
+                        var c2 = math.sqrt(1 - c * c);
+                        link.quaternion.set(limitation.x * c2, limitation.y * c2, limitation.z * c2, c);
+                    }
+                    link.updateMatrixWorld(true);
+                    rotated = true;
+                }
+                if (!rotated)
+                    break;
+            }
+        }
+        // just in case
+        this.mesh.updateMatrixWorld(true);
+    }
+}
+exports.default = CCDIKSolver;
+
+
+/***/ }),
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2476,12 +2795,12 @@ exports.default = RigidBody;
  */
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const Ammo = __webpack_require__(3);
-const RigidBody_1 = __webpack_require__(13);
+const Ammo = __webpack_require__(4);
+const RigidBody_1 = __webpack_require__(15);
 exports.RigidBody = RigidBody_1.default;
-const Constraint_1 = __webpack_require__(11);
+const Constraint_1 = __webpack_require__(13);
 exports.Constraint = Constraint_1.default;
-const ResourceHelper_1 = __webpack_require__(12);
+const ResourceHelper_1 = __webpack_require__(14);
 exports.ResourceHelper = ResourceHelper_1.default;
 class MMDPhysics {
     constructor(mesh, params = {}) {
@@ -2594,7 +2913,7 @@ exports.default = MMDPhysics;
 
 
 /***/ }),
-/* 15 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2703,69 +3022,57 @@ exports.default = MMDPhysicsHelper;
 
 
 /***/ }),
-/* 16 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var Constraint_1 = __webpack_require__(11);
-exports.Constraint = Constraint_1.default;
-var PhysicsHelper_1 = __webpack_require__(15);
-exports.PhysicsHelper = PhysicsHelper_1.default;
-var ResourceHelper_1 = __webpack_require__(12);
-exports.ResourceHelper = ResourceHelper_1.default;
-var RigidBody_1 = __webpack_require__(13);
-exports.RigidBody = RigidBody_1.default;
-var MMDPhysics_1 = __webpack_require__(14);
-exports.default = MMDPhysics_1.default;
-
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const MMDLoader_1 = __webpack_require__(6);
-const MMDAudioManager_1 = __webpack_require__(4);
+const MMDLoader_1 = __webpack_require__(7);
+const MMDAudioManager_1 = __webpack_require__(5);
 const MMDGrantSolver_1 = __webpack_require__(2);
-const MMDHelper_1 = __webpack_require__(5);
-var MMDLoader_2 = __webpack_require__(6);
+const MMDHelper_1 = __webpack_require__(6);
+const MMDPhysics_1 = __webpack_require__(3);
+var MMDLoader_2 = __webpack_require__(7);
 exports.MMDLoader = MMDLoader_2.default;
-var MMDAudioManager_2 = __webpack_require__(4);
+var MMDAudioManager_2 = __webpack_require__(5);
 exports.MMDAudioManager = MMDAudioManager_2.default;
 var MMDGrantSolver_2 = __webpack_require__(2);
 exports.MMDGrantSolver = MMDGrantSolver_2.default;
-var MMDHelper_2 = __webpack_require__(5);
+var MMDHelper_2 = __webpack_require__(6);
 exports.MMDHelper = MMDHelper_2.default;
-var DataCreationHelper_1 = __webpack_require__(7);
+var DataCreationHelper_1 = __webpack_require__(9);
 exports.DataCreationHelper = DataCreationHelper_1.default;
-var VectorKeyframeTrackEx_1 = __webpack_require__(10);
+var VectorKeyframeTrackEx_1 = __webpack_require__(12);
 exports.VectorKeyframeTrackEx = VectorKeyframeTrackEx_1.default;
-var QuaternionKeyframeTrackEx_1 = __webpack_require__(9);
+var QuaternionKeyframeTrackEx_1 = __webpack_require__(11);
 exports.QuaternionKeyframeTrackEx = QuaternionKeyframeTrackEx_1.default;
-var NumberKeyframeTrackEx_1 = __webpack_require__(8);
+var NumberKeyframeTrackEx_1 = __webpack_require__(10);
 exports.NumberKeyframeTrackEx = NumberKeyframeTrackEx_1.default;
 var CubicBezierInterpolation_1 = __webpack_require__(1);
 exports.CubicBezierInterpolation = CubicBezierInterpolation_1.default;
+var MMDPhysics_2 = __webpack_require__(3);
+exports.MMDPhysics = MMDPhysics_2.default;
+var CCDIKSolver_1 = __webpack_require__(8);
+exports.CCDIKSolver = CCDIKSolver_1.default;
 exports.mixin = (THREE) => {
     THREE.MMDLoader = MMDLoader_1.default;
     THREE.MMDAudioManager = MMDAudioManager_1.default;
     THREE.MMDGrantSolver = MMDGrantSolver_1.default;
     THREE.MMDHelper = MMDHelper_1.default;
+    THREE.MMDPhysics = MMDPhysics_1.default;
+    THREE.CCDIKSolver = CCDIKSolver;
 };
 
 
 /***/ }),
-/* 18 */
+/* 21 */
 /***/ (function(module, exports) {
 
 module.exports = require('mmd-parser');
 
 /***/ }),
-/* 19 */
+/* 22 */
 /***/ (function(module, exports) {
 
 module.exports = require('three');
