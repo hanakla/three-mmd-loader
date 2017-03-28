@@ -3,10 +3,10 @@
  *
  * Dependencies
  *  - [x] mmd-parser https://github.com/takahirox/mmd-parser
- *  - [ ] ammo.js https://github.com/kripken/ammo.js
+ *  - [x] ammo.js https://github.com/kripken/ammo.js
  *  - [ ] THREE.TGALoader
- *  - [ ] THREE.MMDPhysics
- *  - [ ] THREE.CCDIKSolver
+ *  - [x] THREE.MMDPhysics
+ *  - [x] THREE.CCDIKSolver
  *  - [ ] THREE.OutlineEffect
  *
  *
