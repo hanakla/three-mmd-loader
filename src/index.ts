@@ -17,10 +17,13 @@ export {default as CubicBezierInterpolation} from './CubicBezierInterpolation';
 
 export {default as MMDPhysics} from './MMDPhysics'
 
+export {default as CCDIKSolver} from './CCDIKSolver'
+
 export const mixin = (THREE: any) => {
     THREE.MMDLoader = MMDLoader;
     THREE.MMDAudioManager = MMDAudioManager;
     THREE.MMDGrantSolver = MMDGrantSolver;
     THREE.MMDHelper = MMDHelper;
     THREE.MMDPhysics = MMDPhysics;
+    THREE.CCDIKSolver = CCDIKSolver;
 }
