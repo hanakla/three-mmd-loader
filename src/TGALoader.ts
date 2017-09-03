@@ -14,6 +14,7 @@ export default class TGALoader {
 
     public load(
         url: string,
+        onLoad: (tex: THREE.Texture) => void,
         onProgress?: (e: ProgressEvent) => void,
         onError?: (e: ErrorEvent) => void
     ): Promise<THREE.Texture> {
@@ -27,6 +28,7 @@ export default class TGALoader {
                 texture.image = this.parse(buffer);
                 texture.needsUpdate = true;
 
+                onLoad(texture);
                 resolve(texture);
             }, onProgress, (e) => {
                 reject(e)
