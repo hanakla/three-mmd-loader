@@ -3039,7 +3039,7 @@ class TGALoader {
     constructor(manager) {
         this.manager = (manager !== undefined) ? manager : three_1.default.DefaultLoadingManager;
     }
-    load(url, onProgress, onError) {
+    load(url, onLoad, onProgress, onError) {
         return new Promise((resolve, reject) => {
             var texture = new three_1.default.Texture();
             var loader = new three_1.default.FileLoader(this.manager);
@@ -3047,6 +3047,7 @@ class TGALoader {
             loader.load(url, (buffer) => {
                 texture.image = this.parse(buffer);
                 texture.needsUpdate = true;
+                onLoad(texture);
                 resolve(texture);
             }, onProgress, (e) => {
                 reject(e);
