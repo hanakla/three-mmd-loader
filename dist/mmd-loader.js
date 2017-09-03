@@ -703,7 +703,7 @@ exports.default = MMDHelper;
  * Dependencies
  *  - [x] mmd-parser https://github.com/takahirox/mmd-parser
  *  - [x] ammo.js https://github.com/kripken/ammo.js
- *  - [ ] THREE.TGALoader
+ *  - [x] THREE.TGALoader
  *  - [x] THREE.MMDPhysics
  *  - [x] THREE.CCDIKSolver
  *  - [ ] THREE.OutlineEffect
