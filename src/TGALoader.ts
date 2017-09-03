@@ -3,7 +3,7 @@
  * @author mrdoob / http://mrdoob.com/
  * @author takahirox / https://github.com/takahirox/
  */
-import THREE from './three'
+import * as THREE from 'three'
 
 export default class TGALoader {
     public manager: THREE.LoadingManager
@@ -15,28 +15,24 @@ export default class TGALoader {
     public load(
         url: string,
         onLoad: (tex: THREE.Texture) => void,
-        onProgress?: (e: ProgressEvent) => void,
-        onError?: (e: ErrorEvent) => void
-    ): Promise<THREE.Texture> {
-        return new Promise((resolve, reject) => {
-            var texture = new THREE.Texture();
+        onProgress: (e: ProgressEvent) => void,
+        onError: (e: ErrorEvent) => void
+    ) {
+        var texture = new THREE.Texture();
 
-            var loader = new THREE.FileLoader(this.manager);
-            loader.setResponseType('arraybuffer');
+        var loader = new THREE.FileLoader(this.manager);
+        loader.setResponseType('arraybuffer');
 
-            loader.load(url, (buffer) => {
-                texture.image = this.parse(buffer);
-                texture.needsUpdate = true;
+        loader.load(url, (buffer) => {
+            texture.image = this.parse(buffer);
+            texture.needsUpdate = true;
 
+            if (onLoad !== undefined) {
                 onLoad(texture);
-                resolve(texture);
-            }, onProgress, (e) => {
-                reject(e)
-                onError(e)
-            });
+            }
+        }, onProgress, onError);
 
-            return texture;
-        })
+        return texture;
     }
 
     public parse(buffer): HTMLCanvasElement {
