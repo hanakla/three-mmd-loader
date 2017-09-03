@@ -64,7 +64,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 21);
+/******/ 	return __webpack_require__(__webpack_require__.s = 22);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -79,7 +79,7 @@ if (typeof window !== 'undefined' && window.THREE) {
     t = window.THREE;
 }
 else if (true) {
-    t = __webpack_require__(23);
+    t = __webpack_require__(16);
 }
 else {
     throw new Error('Can\'t resolve THREE');
@@ -250,13 +250,13 @@ exports.default = MMDGrantSolver;
 Object.defineProperty(exports, "__esModule", { value: true });
 var Constraint_1 = __webpack_require__(13);
 exports.Constraint = Constraint_1.default;
-var PhysicsHelper_1 = __webpack_require__(19);
+var PhysicsHelper_1 = __webpack_require__(20);
 exports.PhysicsHelper = PhysicsHelper_1.default;
 var ResourceHelper_1 = __webpack_require__(14);
 exports.ResourceHelper = ResourceHelper_1.default;
 var RigidBody_1 = __webpack_require__(15);
 exports.RigidBody = RigidBody_1.default;
-var MMDPhysics_1 = __webpack_require__(18);
+var MMDPhysics_1 = __webpack_require__(19);
 exports.default = MMDPhysics_1.default;
 
 
@@ -746,8 +746,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const three_1 = __webpack_require__(0);
-const MMDParser = __webpack_require__(22);
-const TGALoader_1 = __webpack_require__(20);
+const MMDParser = __webpack_require__(23);
+const TGALoader_1 = __webpack_require__(21);
 const DataCreationHelper_1 = __webpack_require__(9);
 const VectorKeyframeTrackEx_1 = __webpack_require__(12);
 const QuaternionKeyframeTrackEx_1 = __webpack_require__(11);
@@ -1751,9 +1751,9 @@ exports.default = MMDLoader;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var CCDIKHelper_1 = __webpack_require__(16);
+var CCDIKHelper_1 = __webpack_require__(17);
 exports.CCDIKHelper = CCDIKHelper_1.default;
-var CCDIKSolver_1 = __webpack_require__(17);
+var CCDIKSolver_1 = __webpack_require__(18);
 exports.default = CCDIKSolver_1.default;
 
 
@@ -2485,6 +2485,12 @@ exports.default = RigidBody;
 
 /***/ }),
 /* 16 */
+/***/ (function(module, exports) {
+
+module.exports = require('three');
+
+/***/ }),
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2610,7 +2616,7 @@ exports.default = CCDIKHelper;
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2770,7 +2776,7 @@ exports.default = CCDIKSolver;
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2914,7 +2920,7 @@ exports.default = MMDPhysics;
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3023,7 +3029,7 @@ exports.default = MMDPhysicsHelper;
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3034,27 +3040,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @author mrdoob / http://mrdoob.com/
  * @author takahirox / https://github.com/takahirox/
  */
-const three_1 = __webpack_require__(0);
+const THREE = __webpack_require__(16);
 class TGALoader {
     constructor(manager) {
-        this.manager = (manager !== undefined) ? manager : three_1.default.DefaultLoadingManager;
+        this.manager = (manager !== undefined) ? manager : THREE.DefaultLoadingManager;
     }
     load(url, onLoad, onProgress, onError) {
-        return new Promise((resolve, reject) => {
-            var texture = new three_1.default.Texture();
-            var loader = new three_1.default.FileLoader(this.manager);
-            loader.setResponseType('arraybuffer');
-            loader.load(url, (buffer) => {
-                texture.image = this.parse(buffer);
-                texture.needsUpdate = true;
+        var texture = new THREE.Texture();
+        var loader = new THREE.FileLoader(this.manager);
+        loader.setResponseType('arraybuffer');
+        loader.load(url, (buffer) => {
+            texture.image = this.parse(buffer);
+            texture.needsUpdate = true;
+            if (onLoad !== undefined) {
                 onLoad(texture);
-                resolve(texture);
-            }, onProgress, (e) => {
-                reject(e);
-                onError(e);
-            });
-            return texture;
-        });
+            }
+        }, onProgress, onError);
+        return texture;
     }
     parse(buffer) {
         // reference from vthibault, https://github.com/vthibault/roBrowser/blob/master/src/Loaders/Targa.js
@@ -3364,7 +3366,7 @@ exports.default = TGALoader;
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3408,16 +3410,10 @@ exports.mixin = (THREE) => {
 
 
 /***/ }),
-/* 22 */
-/***/ (function(module, exports) {
-
-module.exports = require('mmd-parser');
-
-/***/ }),
 /* 23 */
 /***/ (function(module, exports) {
 
-module.exports = require('three');
+module.exports = require('mmd-parser');
 
 /***/ })
 /******/ ]);
