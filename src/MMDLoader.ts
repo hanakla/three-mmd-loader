@@ -836,7 +836,7 @@ export default class MMDLoader extends THREE.Loader
         {
             var textures = {};
             var textureLoader = new THREE.TextureLoader(scope.manager);
-            var tgaLoader = new THREE.TGALoader(scope.manager);
+            var tgaLoader = new TGALoader(scope.manager);
             var canvas = document.createElement('canvas');
             var context = canvas.getContext('2d');
             var offset = 0;
