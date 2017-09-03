@@ -57,7 +57,7 @@ const KeyframeTrackers = {
 
 export default class MMDLoader extends THREE.Loader
 {
-    manager: _THREE.LoadingManager
+    manager: THREE.LoadingManager
     parser: MMDParser.Parser
     textureCrossOrigin: string
 
@@ -81,7 +81,7 @@ export default class MMDLoader extends THREE.Loader
         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAL0lEQVRYR+3QQREAAAzCsOFfNJPBJ1XQS9r2hsUAAQIECBAgQIAAAQIECBAgsBZ4MUx/ofm2I/kAAAAASUVORK5CYII='
     ];
 
-    constructor(manager?: _THREE.LoadingManager)
+    constructor(manager?: THREE.LoadingManager)
     {
         super();
         this.manager = (manager !== undefined) ? manager : THREE.DefaultLoadingManager;
@@ -134,13 +134,13 @@ export default class MMDLoader extends THREE.Loader
         return this.mergeVmds(await Promise.all(vmdLoaders));
     }
 
-    async loadAudio(url: string, onProgress?: (e: ProgressEvent) => void): Promise<[_THREE.Audio, _THREE.AudioListener]>
+    async loadAudio(url: string, onProgress?: (e: ProgressEvent) => void): Promise<[THREE.Audio, THREE.AudioListener]>
     {
         var listener = new THREE.AudioListener();
         var audio = new THREE.Audio(listener);
         var loader = new THREE.AudioLoader(this.manager);
 
-        return new Promise<[_THREE.Audio, _THREE.AudioListener]>((resolve, reject) => {
+        return new Promise<[THREE.Audio, THREE.AudioListener]>((resolve, reject) => {
             loader.load(
                 url,
                 (buffer) => {
